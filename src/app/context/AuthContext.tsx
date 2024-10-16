@@ -19,6 +19,7 @@ import { useRouter } from 'next/navigation';
 interface AuthContextType {
 	user: LoginUser | null;
 	loading: boolean;
+	// eslint-disable-next-line no-unused-vars
 	login: (user: LoginUser) => Promise<void>;
 	logout: () => Promise<void>;
 }

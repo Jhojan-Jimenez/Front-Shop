@@ -37,7 +37,7 @@ function Page() {
 					setError('password', { type: 'manual', message: errors.password });
 				}
 			} else {
-				console.log(error);
+				toast.error('Error en Register Page');
 			}
 		}
 	};

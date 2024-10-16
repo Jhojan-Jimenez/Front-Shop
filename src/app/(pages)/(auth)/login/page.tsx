@@ -32,7 +32,7 @@ function Page() {
 			if (isAxiosError(error)) {
 				const errors = error.response?.data;
 				if (errors.detail) {
-					toast.error("There isn't a user with those credentials");
+					toast.error('There is not a user with those credentials');
 				}
 			} else {
 				toast.error('Unknown Error');
