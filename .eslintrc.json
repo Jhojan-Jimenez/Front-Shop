@@ -1,0 +1,16 @@
+{
+	"extends": ["next/core-web-vitals", "next/typescript", "next", "prettier"],
+	"plugins": ["react", "prettier"],
+	"rules": {
+		"prettier/prettier": ["error"],
+		"semi": ["error", "always"],
+		"quotes": ["error", "single"],
+		"no-unused-vars": ["warn"],
+		"no-console": ["warn"],
+		"react/react-in-jsx-scope": "off",
+		"react/prop-types": "off",
+		"prefer-arrow-callback": ["warn"],
+		"react/no-unescaped-entities": "off",
+		"@next/next/no-page-custom-font": "off"
+	}
+}
