@@ -14,6 +14,7 @@ import {
 	getCookie,
 } from '../lib/sessions';
 import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 // Tipado del contexto para que refleje correctamente los tipos de los valores y funciones
 interface AuthContextType {
@@ -40,12 +41,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		const fetchUser = async () => {
 			try {
 				const storedUser = await getCookie();
+        
 				if (storedUser) {
 					const { email, password } = await decrypt(storedUser);
 					setUser({ email, password });
 				}
 			} catch (error) {
-				console.error('Error fetching user from cookie:', error);
+				toast.error('Error fetching user from cookie');
 			} finally {
 				setLoading(false);
 			}
@@ -58,7 +60,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			await createSession(email, password);
 			setUser({ email, password });
 		} catch (error) {
-			console.error('Error during login:', error);
+			toast.error('Error during login');
 		}
 	};
 
@@ -68,7 +70,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			setUser(null);
 			router.push('/login');
 		} catch (error) {
-			console.error('Error during logout:', error);
+			toast.error('Error during logout');
 		}
 	};
 

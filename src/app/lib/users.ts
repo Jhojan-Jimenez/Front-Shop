@@ -17,18 +17,15 @@ export class Users {
 			},
 		};
 		const body = JSON.stringify({
-			email: email,
-			first_name: first_name,
-			last_name: last_name,
-			password: password,
-			re_password: re_password,
+			email,
+			first_name,
+			last_name,
+			password,
+			re_password,
 		});
-		try {
-			const res: AxiosResponse = await api.post('auth/users/', body, config);
-			return res;
-		} catch (error) {
-			throw error;
-		}
+
+		const res: AxiosResponse = await api.post('auth/users/', body, config);
+		return res;
 	}
 	static async signin({ email, password }: LoginUser) {
 		const config = {
@@ -40,45 +37,7 @@ export class Users {
 			email: email,
 			password: password,
 		});
-		try {
-			const res = await api.post('auth/jwt/create/', body, config);
-			return res;
-		} catch (error) {
-			throw error;
-		}
+		const res = await api.post('auth/jwt/create/', body, config);
+		return res;
 	}
-	//   static async createJWT({ email, password }: LoginUser) {
-	//     const config = {
-	//       headers: {
-	//         "Content-Type": "application/json",
-	//       },
-	//     };
-	//     const body = JSON.stringify({
-	//       email: email,
-	//       password: password,
-	//     });
-	//     try {
-	//       const res = await api.post("auth/jwt/create/", body, config);
-	//       return res;
-	//     } catch (error) {
-	//       throw error;
-	//     }
-	//   }
-	//   static async loginAPI(data) {
-	//     const config = {
-	//       headers: {
-	//         "Content-Type": "application/json",
-	//       },
-	//     };
-	//     const body = JSON.stringify({
-	//       email: data.email,
-	//       password: data.password,
-	//     });
-	//     try {
-	//       const res = await api.post("users/", body, config);
-	//       return res;
-	//     } catch (error) {
-	//       throw error;
-	//     }
-	//   }
 }

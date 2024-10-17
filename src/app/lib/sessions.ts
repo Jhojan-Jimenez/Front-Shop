@@ -14,30 +14,22 @@ export async function encrypt(email: string, password: string) {
 		},
 	};
 	const body = JSON.stringify({ email, password });
-	try {
-		const res: AxiosResponse = await api.post('auth/jwt/create/', body, config);
-		return res.data;
-	} catch (error) {
-		console.log('Error en encrypt', error);
-	}
+	const res: AxiosResponse = await api.post('auth/jwt/create/', body, config);
+	return res.data;
 }
 
-export async function decrypt(session: string | undefined = '') {
+export async function decrypt(sessionToken: string | undefined = '') {
 	const config = {
 		headers: {
-			Authorization: 'JWT ' + session,
+			Authorization: 'JWT ' + sessionToken,
 		},
 	};
-	try {
-		const res: AxiosResponse = await api.get('auth/users/me/', config);
-		return res.data;
-	} catch (error) {
-		console.log('Failed to verify session', error);
-	}
+	const res: AxiosResponse = await api.get('auth/users/me/', config);
+	return res.data;
 }
 
 export async function createSession(userEmail: string, userPassword: string) {
-	const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+	const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000);
 	const { refresh, access } = await encrypt(userEmail, userPassword);
 
 	cookies().set('authToken', access, {

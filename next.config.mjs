@@ -1,16 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: {
-    dangerouslyAllowSVG: true,
-    contentDispositionType: "attachment",
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "tailwindui.com",
-      },
-    ],
-  },
+	images: {
+		dangerouslyAllowSVG: true,
+		contentDispositionType: 'attachment',
+		contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'tailwindui.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'flowbite.s3.amazonaws.com',
+			},
+		],
+	},
 };
 
 export default nextConfig;
