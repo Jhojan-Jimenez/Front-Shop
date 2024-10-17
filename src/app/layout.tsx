@@ -5,6 +5,7 @@ import NavBar from './ui/navigation/NavBar';
 import Footer from './ui/navigation/Footer';
 import { Toaster } from 'react-hot-toast';
 import { AuthProvider } from './context/AuthContext';
+import { LoadingProvider } from './context/LoadingContext';
 
 const geistSans = localFont({
 	src: './fonts/GeistVF.woff',
@@ -33,14 +34,16 @@ export default function RootLayout({
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
 				<div className='min-h-screen flex flex-col justify-between'>
-					<AuthProvider>
-						<header className='sticky top-0'>
-							<NavBar />
-						</header>
-						<Toaster />
-						<main className='min-h-screen'>{children}</main>
-						<Footer />
-					</AuthProvider>
+					<LoadingProvider>
+						<AuthProvider>
+							<header className='sticky top-0'>
+								<NavBar />
+							</header>
+							<Toaster />
+							<main className='min-h-screen'>{children}</main>
+							<Footer />
+						</AuthProvider>
+					</LoadingProvider>
 				</div>
 			</body>
 		</html>

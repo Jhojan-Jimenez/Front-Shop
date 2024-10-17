@@ -18,30 +18,27 @@ import {
 } from '../lib/sessions';
 import { LoginUser } from '../lib/types';
 import Loader from '../ui/modals/Loader';
+import { useLoading } from './LoadingContext';
 
 // Tipado del contexto para que refleje correctamente los tipos de los valores y funciones
 interface AuthContextType {
 	user: LoginUser | null;
-	loading: boolean;
 	// eslint-disable-next-line no-unused-vars
 	login: (user: LoginUser) => Promise<void>;
 	logout: () => Promise<void>;
 	refreshLogin: () => void;
-	setLoading: any;
 }
 
 const AuthContext = createContext<AuthContextType>({
 	user: null,
-	loading: true,
 	login: async () => {},
 	logout: async () => {},
 	refreshLogin: () => {},
-	setLoading: () => {},
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
+	const { setLoading } = useLoading();
 	const [user, setUser] = useState<LoginUser | null>(null);
-	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 
 	useEffect(() => {
@@ -57,8 +54,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 					toast.error('Log in again');
 				}
 				toast.error('Error fetching user from cookie');
-			} finally {
-				setLoading(false);
 			}
 		};
 		fetchUser();
@@ -85,20 +80,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 	const refreshLogin = async () => {
 		try {
+			setLoading(true);
 			const refreshToken = await getRefresh();
 			if (refreshToken) {
 				await refreshAuthToken();
+				const storedUser = await getToken();
+				if (storedUser) {
+					const { email, password } = await decrypt(storedUser);
+					setUser({ email, password });
+				}
 			}
 		} catch (error) {
 			console.log(error);
+      return
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	return (
-		<AuthContext.Provider
-			value={{ user, loading, login, logout, refreshLogin, setLoading }}
-		>
-			{loading && <Loader />}
+		<AuthContext.Provider value={{ user, login, logout, refreshLogin }}>
 			{children}
 		</AuthContext.Provider>
 	);

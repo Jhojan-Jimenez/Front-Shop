@@ -1,6 +1,7 @@
 'use client';
 
 import AuthContext, { useAuth } from '@/app/context/AuthContext';
+import { useLoading } from '@/app/context/LoadingContext';
 import { useLoader } from '@/app/hooks/useLoader';
 import { Users } from '@/app/lib/users';
 import { FormLogData, userLogSchema } from '@/app/lib/validators';
@@ -21,7 +22,8 @@ function Page() {
 		resolver: zodResolver(userLogSchema),
 	});
 	const router = useRouter();
-	const { login, setLoading } = useAuth();
+	const { login } = useAuth();
+	const { setLoading } = useLoading();
 	const logSubmit = async (formData: FormLogData) => {
 		setLoading(true);
 		try {

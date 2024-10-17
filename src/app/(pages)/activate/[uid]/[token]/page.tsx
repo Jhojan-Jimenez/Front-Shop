@@ -1,5 +1,6 @@
 'use client';
 import { useAuth } from '@/app/context/AuthContext';
+import { useLoading } from '@/app/context/LoadingContext';
 import { activateUser } from '@/app/lib/sessions';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
@@ -9,7 +10,7 @@ export default function Page({
 }: {
 	params: { uid: string; token: string };
 }) {
-	const { setLoading } = useAuth();
+	const { setLoading } = useLoading();
 	const router = useRouter();
 	const activateAccount = async () => {
 		setLoading(true);
