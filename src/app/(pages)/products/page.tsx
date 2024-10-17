@@ -14,8 +14,8 @@ export default function page() {
 					<Product />
 				</div>
 				<div className='w-full text-center'>
-          <Index/>
-        </div>
+					<Index />
+				</div>
 			</div>
 		</section>
 	);

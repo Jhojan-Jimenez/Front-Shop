@@ -1,13 +1,15 @@
 'use client';
 
-import AuthContext from '@/app/context/AuthContext';
+import AuthContext, { useAuth } from '@/app/context/AuthContext';
+import { useLoader } from '@/app/hooks/useLoader';
 import { Users } from '@/app/lib/users';
 import { FormLogData, userLogSchema } from '@/app/lib/validators';
+import Loader from '@/app/ui/modals/Loader';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isAxiosError } from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 function Page() {
@@ -19,15 +21,14 @@ function Page() {
 		resolver: zodResolver(userLogSchema),
 	});
 	const router = useRouter();
-	const { login } = useContext(AuthContext);
+	const { login, setLoading } = useAuth();
 	const logSubmit = async (formData: FormLogData) => {
+		setLoading(true);
 		try {
-			const res = await Users.signin(formData);
-			if (res) {
-				login(formData);
-				router.push('/products');
-				toast.success('User correctly login');
-			}
+			await Users.signin(formData);
+			login(formData);
+			router.push('/products');
+			toast.success('User correctly login');
 		} catch (error: unknown) {
 			if (isAxiosError(error)) {
 				const errors = error.response?.data;
@@ -35,8 +36,10 @@ function Page() {
 					toast.error('There is not a user with those credentials');
 				}
 			} else {
-				toast.error('Unknown Error');
+				toast.error('Server Error');
 			}
+		} finally {
+			setLoading(false);
 		}
 	};
 

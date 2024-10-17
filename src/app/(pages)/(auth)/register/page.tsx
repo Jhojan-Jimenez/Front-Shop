@@ -1,8 +1,11 @@
 'use client';
 
+import { useAuth } from '@/app/context/AuthContext';
+import { useLoader } from '@/app/hooks/useLoader';
 import { Users } from '@/app/lib/users';
 
 import { FormRegData, userRegSchema } from '@/app/lib/validators';
+import Loader from '@/app/ui/modals/Loader';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isAxiosError } from 'axios';
 import Image from 'next/image';
@@ -20,13 +23,14 @@ function Page() {
 		resolver: zodResolver(userRegSchema),
 	});
 	const router = useRouter();
+	const { setLoading } = useAuth();
 	const regSubmit = async (data: FormRegData) => {
+		setLoading(true);
 		try {
-			const res = await Users.signup(data);
-			if (res) {
-				router.push('/products');
-				toast.success('User correctly register');
-			}
+			await Users.signup(data);
+			router.push('/products');
+
+			toast.success('We send you an email to activate your account');
 		} catch (error: unknown) {
 			if (isAxiosError(error)) {
 				const errors = error.response?.data;
@@ -39,6 +43,8 @@ function Page() {
 			} else {
 				toast.error('Error en Register Page');
 			}
+		} finally {
+			setLoading(false);
 		}
 	};
 
