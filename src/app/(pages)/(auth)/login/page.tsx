@@ -1,16 +1,14 @@
 'use client';
 
-import AuthContext, { useAuth } from '@/app/context/AuthContext';
+import { useAuth } from '@/app/context/AuthContext';
 import { useLoading } from '@/app/context/LoadingContext';
-import { useLoader } from '@/app/hooks/useLoader';
 import { Users } from '@/app/lib/users';
 import { FormLogData, userLogSchema } from '@/app/lib/validators';
-import Loader from '@/app/ui/modals/Loader';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isAxiosError } from 'axios';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useContext, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 function Page() {
@@ -78,10 +76,11 @@ function Page() {
 								id='email'
 								type='email'
 								{...register('email')}
-								required
 								className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 							/>
-							{errors.email && <span>{errors.email.message}</span>}
+							{errors.email && (
+								<span className='text-red-500'>{errors.email.message}</span>
+							)}
 						</div>
 					</div>
 
@@ -93,16 +92,25 @@ function Page() {
 							>
 								Password
 							</label>
+							<p className='text-sm text-center text-gray-400'>
+								<Link
+									href='/reset_password'
+									className='text-blue-500 focus:outline-none focus:underline hover:underline'
+								>
+									Forgot Password?
+								</Link>
+							</p>
 						</div>
 						<div className='mt-2'>
 							<input
 								id='password'
 								type='password'
 								{...register('password')}
-								required
 								className='block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
 							/>
-							{errors.password && <span>{errors.password.message}</span>}
+							{errors.password && (
+								<span className='text-red-500'>{errors.password.message}</span>
+							)}
 						</div>
 					</div>
 

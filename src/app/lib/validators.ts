@@ -2,7 +2,10 @@ import z from 'zod';
 
 export const userLogSchema = z.object({
 	email: z.string().min(1, 'Is required').email().trim(),
-	password: z.string().trim(),
+	password: z
+		.string()
+		.trim()
+		.min(6, { message: 'Be at least 6 characters long' }),
 });
 
 export type FormLogData = z.infer<typeof userLogSchema>;
@@ -35,7 +38,19 @@ export const userRegSchema = z
 		path: ['re_password'],
 	});
 export type FormRegData = z.infer<typeof userRegSchema>;
-
+export const newPasswordForm = z
+	.object({
+		password: z
+			.string()
+			.min(6, { message: 'Be at least 6 characters long' })
+			.trim(),
+		re_password: z.string().min(1, 'Is required'),
+	})
+	.refine((data) => data.password === data.re_password, {
+		message: 'Passwords do not match',
+		path: ['re_password'],
+	});
+export type newPasswordFormData = z.infer<typeof newPasswordForm>;
 // {
 //       errors?: {
 //         name?: string[]
@@ -45,19 +60,11 @@ export type FormRegData = z.infer<typeof userRegSchema>;
 //       message?: string
 //     }
 
-// export const userLogAdminSchema = z.object({
-//   email: z
-//     .string()
-//     .min(1, "Is required")
-//     .min(3, "Username must have more than 3 chars"),
-
-//   password: z
-//     .string()
-//     .min(1, "Is required")
-//     .min(6, "Password must have more than 6 chars"),
-// });
-
-// export type FormLogAdminData = z.infer<typeof userLogAdminSchema>;
+export const emailSchema = z.object({ email: z.string().email() });
+export type emailData = z.infer<typeof emailSchema>;
+const passwordSchema = z
+	.string()
+	.min(6, { message: 'Be at least 6 characters long' });
 
 // export const createCodeSchema = z.object({
 //   description: z

@@ -73,6 +73,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			await deleteSession();
 			setUser(null);
 			router.push('/login');
+			toast.error('Session closed correctly');
 		} catch (error) {
 			toast.error('Error during logout');
 		}
@@ -92,7 +93,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			}
 		} catch (error) {
 			console.log(error);
-      return
+			return;
 		} finally {
 			setLoading(false);
 		}

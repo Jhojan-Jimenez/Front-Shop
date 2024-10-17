@@ -96,6 +96,41 @@ export async function activateUser(uid: string, token: string) {
 		}
 	}
 }
+export async function resetPassword(email: string) {
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	};
+	const body = JSON.stringify({ email });
+	try {
+		await api.post('auth/users/reset_password/', body, config);
+	} catch (error: any) {
+		if (error.response.status === 400) {
+			throw new Error('DoesNotExistThisEmail');
+		}
+	}
+}
+export async function resetPasswordConfirm(
+	uid: string,
+	token: string,
+	new_password: string,
+	re_new_password: string
+) {
+	const config = {
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	};
+	const body = JSON.stringify({ uid, token, new_password, re_new_password });
+	try {
+		await api.post('auth/users/reset_password_confirm/', body, config);
+	} catch (error: any) {
+		if (error.response.status === 400) {
+			console.log(error);
+		}
+	}
+}
 
 export async function deleteSession() {
 	cookies().delete('authToken');
