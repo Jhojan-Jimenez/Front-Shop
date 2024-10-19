@@ -19,20 +19,19 @@ import {
 import { LoginUser, UserSchema } from '../lib/types';
 import { useLoading } from './LoadingContext';
 
-// Tipado del contexto para que refleje correctamente los tipos de los valores y funciones
+// Tipado del contexto con los tipos de valores y funciones
 interface AuthContextType {
 	user: UserSchema | null;
-	// eslint-disable-next-line no-unused-vars
 	login: (user: LoginUser) => Promise<void>;
 	logout: () => Promise<void>;
-	refreshLogin: () => void;
+	refreshLogin: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
 	user: null,
 	login: async () => {},
 	logout: async () => {},
-	refreshLogin: () => {},
+	refreshLogin: async () => {},
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
@@ -42,6 +41,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 	useEffect(() => {
 		const fetchUser = async () => {
+			setLoading(true);
 			try {
 				const storedUser = await getToken();
 				if (storedUser) {
@@ -51,39 +51,52 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 				}
 			} catch (error: any) {
 				if (error.message === 'InvalidToken') {
-					toast.error('Log in again');
+					toast.error('Please log in again.');
+				} else {
+					toast.error('Error loading user data.');
 				}
-				// Error fetching user from cookie
-				toast.error('Stored user server error');
+			} finally {
+				setLoading(false);
 			}
 		};
 		fetchUser();
 	}, []);
 
 	const login = async ({ email, password }: LoginUser) => {
+		setLoading(true);
 		try {
 			const newUser = await createSession(email, password);
-			const { id, email_, first_name, last_name } = await decrypt(newUser);
-			setUser({ id, email: email_, first_name, last_name });
+			const {
+				id,
+				email: decryptedEmail,
+				first_name,
+				last_name,
+			} = await decrypt(newUser);
+			setUser({ id, email: decryptedEmail, first_name, last_name });
+			toast.success('Logged in successfully!');
 		} catch (error) {
-			toast.error('Login server error');
+			toast.error('Error logging in.');
+		} finally {
+			setLoading(false);
 		}
 	};
 
 	const logout = async () => {
+		setLoading(true);
 		try {
 			await deleteSession();
 			setUser(null);
 			router.push('/login');
-			toast.error('Session closed correctly');
+			toast.success('Session closed successfully.');
 		} catch (error) {
-			toast.error('Logout server error');
+			toast.error('Error logging out.');
 		}
+		setLoading(false);
 	};
 
 	const refreshLogin = async () => {
+		setLoading(true);
 		try {
-			setLoading(true);
 			const refreshToken = await getRefresh();
 			if (refreshToken) {
 				await refreshAuthToken();
@@ -93,10 +106,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 						await decrypt(storedUser);
 					setUser({ id, email, first_name, last_name });
 				}
+				toast.success('Logged in successfully!');
+			} else {
+				toast.error('Refresh token not available.');
 			}
 		} catch (error) {
-			console.log(error);
-			return;
+			toast.error('Error refreshing session.');
 		} finally {
 			setLoading(false);
 		}
@@ -108,8 +123,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 		</AuthContext.Provider>
 	);
 };
-export const useAuth = () => {
-	return useContext(AuthContext);
-};
+
+export const useAuth = () => useContext(AuthContext);
 
 export default AuthContext;

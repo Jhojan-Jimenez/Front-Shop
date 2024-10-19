@@ -1,12 +1,17 @@
 import { getCategories } from '@/app/lib/actions/category';
 import { getProducts } from '@/app/lib/actions/product';
+import { FilterOptions } from '@/app/lib/types';
 import Index from '@/app/ui/ProductsCatalog/Filters/Index';
 import ProductCatalog from '@/app/ui/ProductsCatalog/ProductCatalog';
 import ProductList from '@/app/ui/ProductsCatalog/ProductList';
 
-export default async function page() {
+export default async function page({
+	searchParams,
+}: {
+	searchParams: FilterOptions;
+}) {
 	const categories = await getCategories();
-	const products = await getProducts();
+	const products = await getProducts({ ...searchParams });
 	return (
 		<section className='bg-gray-50 py-8 antialiased md:py-12'>
 			<div className='mx-auto max-w-screen-2xl px-4 2xl:px-0'>

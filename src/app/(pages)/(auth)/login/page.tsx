@@ -1,8 +1,7 @@
 'use client';
 
 import { useAuth } from '@/app/context/AuthContext';
-import { useLoading } from '@/app/context/LoadingContext';
-import { Users } from '@/app/lib/actions/users';
+import { userSignin } from '@/app/lib/actions/users';
 import { FormLogData, userLogSchema } from '@/app/lib/validators';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isAxiosError } from 'axios';
@@ -21,25 +20,17 @@ function Page() {
 	});
 	const router = useRouter();
 	const { login } = useAuth();
-	const { setLoading } = useLoading();
 	const logSubmit = async (formData: FormLogData) => {
-		setLoading(true);
 		try {
-			await Users.signin(formData);
-			login(formData);
+			await login(formData);
 			router.push('/products');
-			toast.success('User correctly login');
 		} catch (error: unknown) {
-			if (isAxiosError(error)) {
-				const errors = error.response?.data;
-				if (errors.detail) {
-					toast.error('There is not a user with those credentials');
-				}
+			
+			if (error.message === 'DoesNotExistUser') {
+				toast.error('There is not a user with those credentials');
 			} else {
 				toast.error('Server Error');
 			}
-		} finally {
-			setLoading(false);
 		}
 	};
 

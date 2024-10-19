@@ -1,18 +1,15 @@
 'use client';
 import { useLoading } from '@/app/context/LoadingContext';
 import { resetPassword } from '@/app/lib/actions/sessions';
-import { Users } from '@/app/lib/actions/users';
 import {
 	emailData,
-	emailSchema,
-	newPasswordForm,
-	newPasswordFormData,
+	emailSchema
 } from '@/app/lib/validators';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-import { useRouter } from 'next/navigation';
 
 export default function page() {
 	const {

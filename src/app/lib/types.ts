@@ -39,3 +39,10 @@ export interface ProductSchema {
 	date_created: string;
 	get_thumbnail: string;
 }
+export interface FilterOptions {
+	categoryId?: number;
+	priceRange?: string;
+	sortBy?: string;
+	order?: 'asc' | 'desc';
+	search?: string;
+}
