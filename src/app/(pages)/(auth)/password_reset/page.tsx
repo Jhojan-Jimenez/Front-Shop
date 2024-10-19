@@ -1,7 +1,7 @@
 'use client';
 import { useLoading } from '@/app/context/LoadingContext';
-import { resetPassword } from '@/app/lib/sessions';
-import { Users } from '@/app/lib/users';
+import { resetPassword } from '@/app/lib/actions/sessions';
+import { Users } from '@/app/lib/actions/users';
 import {
 	emailData,
 	emailSchema,
@@ -27,7 +27,6 @@ export default function page() {
 	const newPasswordSubmit = async (formData: emailData) => {
 		setLoading(true);
 		try {
-			// Esto no devuelve nada, porque es por correos, ahi esta mi error
 			await resetPassword(formData.email);
 			toast.success(`We send you an email to change your password`);
 		} catch (error: unknown) {

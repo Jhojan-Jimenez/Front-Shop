@@ -38,6 +38,7 @@ export const userRegSchema = z
 		path: ['re_password'],
 	});
 export type FormRegData = z.infer<typeof userRegSchema>;
+
 export const newPasswordForm = z
 	.object({
 		password: z
@@ -51,54 +52,6 @@ export const newPasswordForm = z
 		path: ['re_password'],
 	});
 export type newPasswordFormData = z.infer<typeof newPasswordForm>;
-// {
-//       errors?: {
-//         name?: string[]
-//         email?: string[]
-//         password?: string[]
-//       }
-//       message?: string
-//     }
 
 export const emailSchema = z.object({ email: z.string().email() });
 export type emailData = z.infer<typeof emailSchema>;
-const passwordSchema = z
-	.string()
-	.min(6, { message: 'Be at least 6 characters long' });
-
-// export const createCodeSchema = z.object({
-//   description: z
-//     .string()
-//     .min(1, { message: "Is required" })
-//     .min(3, { message: "Username must have more than 3 chars" }),
-
-//   discount: z
-//     .string()
-//     .min(1, { message: "Is required" })
-//     .min(4, {
-//       message: "Must have minimum 1000",
-//     })
-//     .refine((value) => /^[0-9]+$/.test(value), {
-//       message: "Username must contain only numbers",
-//     }),
-// });
-
-// export type FormCreateCode = z.infer<typeof createCodeSchema>;
-// export const updateCodeSchema = z.object({
-//   description: z
-//     .string()
-//     .min(1, { message: "Is required" })
-//     .min(3, { message: "Username must have more than 3 chars" }),
-
-//   discount: z
-//     .string()
-//     .min(1, { message: "Is required" })
-//     .min(4, {
-//       message: "Must have minimum 1000",
-//     })
-//     .refine((value) => /^[0-9]+$/.test(value), {
-//       message: "Username must contain only numbers",
-//     }),
-// });
-
-// export type FormUpdateCode = z.infer<typeof updateCodeSchema>;

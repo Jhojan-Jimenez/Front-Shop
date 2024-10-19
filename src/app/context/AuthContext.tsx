@@ -15,14 +15,13 @@ import {
 	getRefresh,
 	getToken,
 	refreshAuthToken,
-} from '../lib/sessions';
-import { LoginUser } from '../lib/types';
-import Loader from '../ui/modals/Loader';
+} from '../lib/actions/sessions';
+import { LoginUser, UserSchema } from '../lib/types';
 import { useLoading } from './LoadingContext';
 
 // Tipado del contexto para que refleje correctamente los tipos de los valores y funciones
 interface AuthContextType {
-	user: LoginUser | null;
+	user: UserSchema | null;
 	// eslint-disable-next-line no-unused-vars
 	login: (user: LoginUser) => Promise<void>;
 	logout: () => Promise<void>;
@@ -38,7 +37,7 @@ const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const { setLoading } = useLoading();
-	const [user, setUser] = useState<LoginUser | null>(null);
+	const [user, setUser] = useState<UserSchema | null>(null);
 	const router = useRouter();
 
 	useEffect(() => {
@@ -46,14 +45,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			try {
 				const storedUser = await getToken();
 				if (storedUser) {
-					const { email, password } = await decrypt(storedUser);
-					setUser({ email, password });
+					const { id, email, first_name, last_name } =
+						await decrypt(storedUser);
+					setUser({ id, email, first_name, last_name });
 				}
 			} catch (error: any) {
 				if (error.message === 'InvalidToken') {
 					toast.error('Log in again');
 				}
-				toast.error('Error fetching user from cookie');
+				// Error fetching user from cookie
+				toast.error('Stored user server error');
 			}
 		};
 		fetchUser();
@@ -61,10 +62,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
 	const login = async ({ email, password }: LoginUser) => {
 		try {
-			await createSession(email, password);
-			setUser({ email, password });
+			const newUser = await createSession(email, password);
+			const { id, email_, first_name, last_name } = await decrypt(newUser);
+			setUser({ id, email: email_, first_name, last_name });
 		} catch (error) {
-			toast.error('Error during login');
+			toast.error('Login server error');
 		}
 	};
 
@@ -75,7 +77,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			router.push('/login');
 			toast.error('Session closed correctly');
 		} catch (error) {
-			toast.error('Error during logout');
+			toast.error('Logout server error');
 		}
 	};
 
@@ -87,8 +89,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 				await refreshAuthToken();
 				const storedUser = await getToken();
 				if (storedUser) {
-					const { email, password } = await decrypt(storedUser);
-					setUser({ email, password });
+					const { id, email, first_name, last_name } =
+						await decrypt(storedUser);
+					setUser({ id, email, first_name, last_name });
 				}
 			}
 		} catch (error) {

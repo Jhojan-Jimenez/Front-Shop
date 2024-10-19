@@ -78,6 +78,7 @@ export async function createSession(userEmail: string, userPassword: string) {
 		sameSite: 'lax',
 		path: '/',
 	});
+	return access
 }
 export async function activateUser(uid: string, token: string) {
 	const config = {

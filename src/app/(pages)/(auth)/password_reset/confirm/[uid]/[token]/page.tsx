@@ -1,6 +1,6 @@
 'use client';
 import { useLoading } from '@/app/context/LoadingContext';
-import { resetPasswordConfirm } from '@/app/lib/sessions';
+import { resetPasswordConfirm } from '@/app/lib/actions/sessions';
 import { newPasswordForm, newPasswordFormData } from '@/app/lib/validators';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';

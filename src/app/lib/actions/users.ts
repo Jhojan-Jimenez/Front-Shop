@@ -1,4 +1,5 @@
-import { LoginUser, RegisterUser } from './types';
+'use server';
+import { LoginUser, RegisterUser } from '../types';
 import axios, { AxiosResponse } from 'axios';
 const api = axios.create({
 	baseURL: 'http://127.0.0.1:8000/',

@@ -1,7 +1,7 @@
 'use client';
 
 import { useLoading } from '@/app/context/LoadingContext';
-import { Users } from '@/app/lib/users';
+import { Users } from '@/app/lib/actions/users';
 
 import { FormRegData, userRegSchema } from '@/app/lib/validators';
 import { zodResolver } from '@hookform/resolvers/zod';

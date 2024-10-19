@@ -1,10 +1,16 @@
+import { ProductSchema } from '@/app/lib/types';
 import Image from 'next/image';
+import Link from 'next/link';
 
-export default function Product() {
+export default async function ProductListComponent({
+	product,
+}: {
+	product: ProductSchema;
+}) {
 	return (
 		<div className='rounded-lg border border-gray-200 bg-white p-6 shadow-sm '>
 			<div className='h-56 w-full'>
-				<a href='#'>
+				<Link href={`products/${product.id}`}>
 					<Image
 						width={400}
 						height={400}
@@ -12,7 +18,7 @@ export default function Product() {
 						src='https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg'
 						alt=''
 					/>
-				</a>
+				</Link>
 			</div>
 			<div className='pt-6'>
 				<div className='mb-4 flex items-center justify-between gap-4'>
@@ -93,12 +99,9 @@ export default function Product() {
 					</div>
 				</div>
 
-				<a
-					href='#'
-					className='text-lg font-semibold leading-tight text-gray-900 hover:underline '
-				>
-					Apple iMac 27, 1TB HDD, Retina 5K Display, M3 Max
-				</a>
+				<div className='text-lg font-semibold leading-tight text-gray-900 hover:underline '>
+					{product.name}
+				</div>
 
 				<div className='mt-2 flex items-center gap-2'>
 					<div className='flex items-center'>
@@ -198,7 +201,7 @@ export default function Product() {
 
 				<div className='mt-4 flex items-center justify-between gap-4'>
 					<p className='text-2xl font-extrabold leading-tight text-gray-900 '>
-						$1,699
+						${product.price}
 					</p>
 
 					<button
