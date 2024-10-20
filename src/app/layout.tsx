@@ -36,7 +36,7 @@ export default function RootLayout({
 				<div className='min-h-screen flex flex-col justify-between'>
 					<LoadingProvider>
 						<AuthProvider>
-							<header className='sticky top-0'>
+							<header className='sticky top-0 z-30'>
 								<NavBar />
 							</header>
 							<Toaster />

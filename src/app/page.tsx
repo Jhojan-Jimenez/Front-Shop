@@ -1,8 +1,10 @@
 import Image from 'next/image';
+import BestSeller from './ui/home/BestSeller';
+import NewestProducts from './ui/home/NewestProducts';
 
-export default function Home() {
+export default async function Home() {
 	return (
-		<div className='box-border w-11/12 m-auto  bg-white flex flex-col items-center gap-14 pb-10'>
+		<div className='max-w-screen-2xl box-border w-11/12 m-auto  bg-white flex flex-col items-center gap-14 pb-10'>
 			<section className=' w-full'>
 				<Image
 					src='/images/mainImg.webp'
@@ -22,15 +24,9 @@ export default function Home() {
 				</p>
 			</section>
 
-			<section className='  w-full'>
-				<h1 className='text-3xl mb-6 ml-6'>Lo mejor y mas nuevo</h1>
-				<div className='grid grid-cols-6 grid-rows-6 gap-4 h-96 m-4'>
-					<div className='col-span-2 row-span-2 bg-red-500'></div>
-					<div className='col-span-2 row-span-2 col-start-1 row-start-3  bg-red-400'></div>
-					<div className='col-span-2 row-span-2 col-start-1 row-start-5 bg-red-300'></div>
-					<div className='col-span-2 row-span-6 col-start-3 row-start-1 bg-green-400'></div>
-					<div className='col-span-2 row-span-6 col-start-5 row-start-1 bg-blue-400'></div>
-				</div>
+			<section className='w-11/12'>
+				<BestSeller />
+				<NewestProducts />
 			</section>
 		</div>
 	);

@@ -25,7 +25,6 @@ function Page() {
 			await login(formData);
 			router.push('/products');
 		} catch (error: unknown) {
-			
 			if (error.message === 'DoesNotExistUser') {
 				toast.error('There is not a user with those credentials');
 			} else {

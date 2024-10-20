@@ -22,8 +22,14 @@ export async function getProducts(params: FilterOptions) {
 		order: order || 'asc',
 		search: search || '',
 	};
-	const res = await api.post('api/product/products', data, config);
-	return res.data.filtered_products;
+	try {
+		const res = await api.post('api/product/products', data, config);
+		return res.data.filtered_products;
+	} catch (error) {
+		if (error.status == 404) {
+			return notFound();
+		}
+	}
 }
 export async function getProductById(id: number) {
 	try {

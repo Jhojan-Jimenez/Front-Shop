@@ -57,7 +57,7 @@ export default function Navigation() {
 	const { user, logout } = useAuth();
 
 	return (
-		<div className='bg-white shadow-md shadow-gray-200'>
+		<div className='bg-white shadow-md shadow-gray-200 w-full'>
 			<nav className='mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8'>
 				<div className='flex lg:flex-1'>
 					<Link href='/' className='-m-1.5 p-1.5'>
@@ -137,7 +137,7 @@ function ProductPopover() {
 				leaveFrom='opacity-100 translate-y-0'
 				leaveTo='opacity-0 translate-y-1'
 			>
-				<Popover.Panel className='absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5'>
+				<Popover.Panel className='absolute -left-8 top-full z-40 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5'>
 					<div className='p-4'>
 						{products.map((item) => (
 							<ProductItem key={item.name} item={item} />
@@ -233,8 +233,8 @@ interface MobileMenuProps {
 function MobileMenu({ open, setOpen, user, logout }: MobileMenuProps) {
 	return (
 		<Dialog as='div' className='lg:hidden' open={open} onClose={setOpen}>
-			<div className='fixed inset-0 z-10' />
-			<Dialog.Panel className='fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10'>
+			<div className='fixed inset-0 z-40' />
+			<Dialog.Panel className='fixed inset-y-0 right-0 z-40 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10'>
 				<div className='flex items-center justify-between'>
 					<a href='#' className='-m-1.5 p-1.5'>
 						<span className='sr-only'>Your Company</span>

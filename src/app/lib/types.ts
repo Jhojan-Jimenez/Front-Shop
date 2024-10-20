@@ -38,6 +38,7 @@ export interface ProductSchema {
 	sold: number;
 	date_created: string;
 	get_thumbnail: string;
+	rating: number;
 }
 export interface FilterOptions {
 	categoryId?: number;
@@ -45,4 +46,10 @@ export interface FilterOptions {
 	sortBy?: string;
 	order?: 'asc' | 'desc';
 	search?: string;
+}
+export interface SortOptionsSchema {
+	name: string;
+	current: boolean;
+	sortBy: string;
+	order: 'asc' | 'desc';
 }
