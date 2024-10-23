@@ -34,7 +34,7 @@ const products: Product[] = [
 		icon: ChartPieIcon,
 	},
 	{
-		name: 'Campo 2',
+		name: 'Campo 1',
 		description: 'Descripcion 1',
 		href: '#',
 		icon: ChartPieIcon,
@@ -62,11 +62,11 @@ export default function Navigation() {
 				<div className='flex lg:flex-1'>
 					<Link href='/' className='-m-1.5 p-1.5'>
 						<Image
-							width={16}
-							height={16}
-							alt='Company logo'
-							src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
-							className='h-8 w-auto'
+							width={400}
+							height={400}
+							alt='Shop logo'
+							src='/images/ShopIcon.jpg'
+							className='h-12 w-auto'
 						/>
 					</Link>
 				</div>
@@ -241,8 +241,8 @@ function MobileMenu({ open, setOpen, user, logout }: MobileMenuProps) {
 						<Image
 							width={400}
 							height={400}
-							alt='Company logo'
-							src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
+							alt='Shop logo'
+							src='/images/ShopIcon.jpg'
 							className='h-8 w-auto'
 						/>
 					</a>

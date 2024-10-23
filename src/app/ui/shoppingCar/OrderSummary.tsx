@@ -1,4 +1,7 @@
+import { useCart } from '@/app/context/CartContext';
+
 export default function OrderSummary() {
+	const { total } = useCart();
 	return (
 		<div className='space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm  sm:p-6'>
 			<p className='text-xl font-semibold text-gray-900 '>Order summary</p>
@@ -9,7 +12,7 @@ export default function OrderSummary() {
 						<dt className='text-base font-normal text-gray-500 '>
 							Original price
 						</dt>
-						<dd className='text-base font-medium text-gray-900 '>$7,592.00</dd>
+						<dd className='text-base font-medium text-gray-900 '>${total()}</dd>
 					</dl>
 
 					<dl className='flex items-center justify-between gap-4'>

@@ -40,6 +40,11 @@ export interface ProductSchema {
 	get_thumbnail: string;
 	rating: number;
 }
+export interface CartItemSchema {
+	id: number;
+	count: number;
+	product: ProductSchema;
+}
 export interface FilterOptions {
 	categoryId?: number;
 	priceRange?: string;

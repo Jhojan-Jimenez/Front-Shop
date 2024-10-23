@@ -2,13 +2,14 @@
 import { Disclosure } from '@headlessui/react';
 import { MinusIcon, PlusIcon } from '@heroicons/react/24/solid';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 interface FilterOption {
 	value: string;
 	label: string;
 	checked: boolean;
 }
+
 interface Filter {
 	id: string;
 	param: string;
@@ -48,7 +49,6 @@ function useCategoryFilter() {
 	};
 }
 
-// Reusable radio input component
 function RadioInput({
 	filterParam,
 	filterOption,
@@ -61,7 +61,6 @@ function RadioInput({
 	isMobile: boolean;
 }) {
 	const { handleRadioChange, searchParams } = useCategoryFilter();
-
 	return (
 		<div className='flex items-center'>
 			<input
@@ -70,7 +69,7 @@ function RadioInput({
 				type='radio'
 				className='h-4 w-4 border-gray-300 rounded text-indigo-600 focus:ring-indigo-500'
 				onChange={() => handleRadioChange(filterParam, filterOption.value)}
-				checked={searchParams.get(filterParam) === filterOption.value}
+				defaultChecked={searchParams.get(filterParam) === filterOption.value}
 			/>
 			<label
 				htmlFor={`filter-${isMobile ? 'mobile-' : ''}${filterOption.label}-${optionIdx}`}
@@ -82,82 +81,85 @@ function RadioInput({
 	);
 }
 
-// filter component
-export function OtherFilters({ filter }: { filter: Filter }) {
-	return (
-		<Disclosure as='div' className='border-b border-gray-200 py-6'>
-			{({ open }) => (
-				<>
-					<h3 className='-my-3 flow-root'>
-						<Disclosure.Button className='py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500'>
-							<span className='font-medium text-gray-900'>{filter.name}</span>
-							<span className='ml-6 flex items-center'>
-								{open ? (
-									<MinusIcon className='h-5 w-5' aria-hidden='true' />
-								) : (
-									<PlusIcon className='h-5 w-5' aria-hidden='true' />
-								)}
-							</span>
-						</Disclosure.Button>
-					</h3>
-					<Disclosure.Panel className='pt-6'>
-						<div className='space-y-4'>
-							{filter.options &&
-								filter.options.map((filterOp, optionIdx) => (
-									<RadioInput
-										key={optionIdx}
-										filterParam={filter.param}
-										filterOption={filterOp}
-										optionIdx={optionIdx}
-										isMobile={false}
-									/>
-								))}
-						</div>
-					</Disclosure.Panel>
-				</>
-			)}
-		</Disclosure>
-	);
-}
+// function useDeleteParams(open: boolean, paramName: string) {
+// 	const router = useRouter();
+// 	const searchParams = useSearchParams();
+// 	const params = new URLSearchParams(searchParams);
+// 	if (!open) {
+// 		params.delete(paramName);
+// 		router.replace(`?${params.toString()}`, { scroll: false });
+// 	}
+// }
 
-// MobileCategory component
-export function MobileOtherFilters({ filter }: { filter: Filter }) {
+export function FilterComponent({
+	filter,
+	isMobile = false,
+}: {
+	filter: Filter;
+	isMobile?: boolean;
+}) {
+	const containerClass = isMobile
+		? 'border-t border-gray-200 px-4 py-6'
+		: 'border-b border-gray-200 py-6';
+
+	const titleClass = isMobile ? '-mx-2 -my-3 flow-root' : '-my-3 flow-root';
+
+	const buttonClass = isMobile
+		? 'px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500'
+		: 'py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500';
+
+	const panelClass = isMobile ? 'space-y-6' : 'space-y-4';
+
+	function DeleteParams(open: boolean, paramName: string) {
+		const router = useRouter();
+		const searchParams = useSearchParams();
+
+		useEffect(() => {
+			const params = new URLSearchParams(searchParams);
+			if (!open) {
+				params.delete(paramName);
+				router.replace(`?${params.toString()}`, { scroll: false });
+			}
+		}, [open, paramName, router, searchParams]);
+	}
+
 	return (
-		<Disclosure
-			as='div'
-			key={filter.id}
-			className='border-t border-gray-200 px-4 py-6'
-		>
-			{({ open }) => (
-				<>
-					<h3 className='-mx-2 -my-3 flow-root'>
-						<Disclosure.Button className='px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500'>
-							<span className='font-medium text-gray-900'>{filter.name}</span>
-							<span className='ml-6 flex items-center'>
-								{open ? (
-									<MinusIcon className='h-5 w-5' aria-hidden='true' />
-								) : (
-									<PlusIcon className='h-5 w-5' aria-hidden='true' />
-								)}
-							</span>
-						</Disclosure.Button>
-					</h3>
-					<Disclosure.Panel className='pt-6'>
-						<div className='space-y-6'>
-							{filter.options &&
-								filter.options.map((filterOp, optionIdx) => (
-									<RadioInput
-										key={optionIdx}
-										filterParam={filter.param}
-										filterOption={filterOp}
-										optionIdx={optionIdx}
-										isMobile={true}
-									/>
-								))}
-						</div>
-					</Disclosure.Panel>
-				</>
-			)}
+		<Disclosure as='div' className={containerClass}>
+			{({ open }) => {
+				if (isMobile) {
+					DeleteParams(open, filter.param);
+				}
+				return (
+					<>
+						<h3 className={titleClass}>
+							<Disclosure.Button className={buttonClass}>
+								<span className='font-medium text-gray-900'>{filter.name}</span>
+								<span className='ml-6 flex items-center'>
+									{open ? (
+										<MinusIcon className='h-5 w-5' aria-hidden='true' />
+									) : (
+										<PlusIcon className='h-5 w-5' aria-hidden='true' />
+									)}
+								</span>
+							</Disclosure.Button>
+						</h3>
+						<Disclosure.Panel className='pt-6'>
+							<div className={panelClass}>
+								{filter.options &&
+									filter.options.map((filterOp, optionIdx) => (
+										<RadioInput
+											key={optionIdx}
+											filterParam={filter.param}
+											filterOption={filterOp}
+											optionIdx={optionIdx}
+											isMobile={isMobile}
+										/>
+									))}
+							</div>
+						</Disclosure.Panel>
+					</>
+				);
+			}}
 		</Disclosure>
 	);
 }

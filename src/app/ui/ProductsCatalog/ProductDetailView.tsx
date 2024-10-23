@@ -1,12 +1,36 @@
+'use client';
+import { useLoading } from '@/app/context/LoadingContext';
+import { addCartItem } from '@/app/lib/actions/cart';
 import { ProductSchema } from '@/app/lib/types';
 import Image from 'next/image';
+import toast from 'react-hot-toast';
 import StarRating from '../StarRating';
+import { useRouter } from 'next/navigation';
 
-export default async function ProductDetailView({
+export default function ProductDetailView({
 	product,
 }: {
 	product: ProductSchema;
 }) {
+	const { setLoading } = useLoading();
+	const router = useRouter();
+	const AddItemToCart = async () => {
+		setLoading(true);
+		try {
+			const res = await addCartItem(product.id);
+
+			if (res) {
+				router.push('/shopping');
+				return toast.success('Product successfully added to your cart');
+			} else {
+				throw new Error('No response or empty response from server');
+			}
+		} catch (error: any) {
+			return toast.error(error.message);
+		} finally {
+			setLoading(false);
+		}
+	};
 	return (
 		<div className='container px-5 py-24 mx-auto'>
 			<div className='lg:w-4/5 mx-auto flex flex-wrap'>
@@ -105,8 +129,11 @@ export default async function ProductDetailView({
 						<span className='title-font font-medium text-2xl text-gray-900'>
 							${product.price}
 						</span>
-						<button className='flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded'>
-							Button
+						<button
+							className='flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded'
+							onClick={AddItemToCart}
+						>
+							Add to car
 						</button>
 						<button className='rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4'>
 							<svg

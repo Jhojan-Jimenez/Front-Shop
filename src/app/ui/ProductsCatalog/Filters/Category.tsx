@@ -82,7 +82,12 @@ export function Category({ category }: { category: CategorySchema }) {
 				<>
 					<h3 className='-my-3 flow-root'>
 						<Disclosure.Button className='py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500'>
-							<span className='font-medium text-gray-900'>{category.name}</span>
+							<RadioInput
+								key={category.id}
+								subCategory={{ id: category.id, name: category.name }}
+								optionIdx={0}
+								isMobile={false}
+							/>
 							<span className='ml-6 flex items-center'>
 								{open ? (
 									<MinusIcon className='h-5 w-5' aria-hidden='true' />
@@ -123,7 +128,12 @@ export function MobileCategory({ category }: { category: CategorySchema }) {
 				<>
 					<h3 className='-mx-2 -my-3 flow-root'>
 						<Disclosure.Button className='px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500'>
-							<span className='font-medium text-gray-900'>{category.name}</span>
+							<RadioInput
+								key={category.id}
+								subCategory={{ id: category.id, name: category.name }}
+								optionIdx={0}
+								isMobile={true}
+							/>
 							<span className='ml-6 flex items-center'>
 								{open ? (
 									<MinusIcon className='h-5 w-5' aria-hidden='true' />

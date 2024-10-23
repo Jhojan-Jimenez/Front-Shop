@@ -15,12 +15,12 @@ export default async function Home() {
 				/>
 			</section>
 			<section className='  text-center w-2/4 '>
-				<h1 className='text-4xl mb-4'>New OP product</h1>
-				<p className='text-center text-2xl  m-auto'>
-					Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nemo
-					molestiae qui quas eveniet dignissimos officia libero dicta ipsum
-					facilis, asperiores fuga ipsa beatae cumque tempora, consequuntur
-					accusantium voluptatibus! Blanditiis, suscipit?
+				<h1 className='text-4xl mb-4'>Your Shopping, Simplified</h1>
+				<p className='text-center text-2xl m-auto'>
+					Enjoy a seamless shopping experience with us. Our user-friendly
+					website and dedicated customer support team are here to assist you
+					every step of the way. Discover the joy of hassle-free shopping and
+					have your favorite items delivered right to your doorstep.
 				</p>
 			</section>
 

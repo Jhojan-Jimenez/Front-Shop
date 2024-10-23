@@ -5,9 +5,15 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import { ChevronDownIcon, FunnelIcon } from '@heroicons/react/24/solid';
 import { Fragment, ReactNode, useState } from 'react';
 import { Category, MobileCategory } from './Filters/Category';
-import { MobileOtherFilters, OtherFilters } from './Filters/OtherFilters';
+import {
+	FilterComponent,
+	MobileOtherFilters,
+	OtherFilters,
+} from './Filters/OtherFilters';
+import { MinusIcon, PlusIcon } from '@heroicons/react/24/solid';
 import SortOption from './Filters/SortOption';
 import SearchInput from './Filters/SearchInput';
+import { Disclosure } from '@headlessui/react';
 const sortOptions: SortOptionsSchema[] = [
 	{ name: 'Most Popular', sortBy: 'sold', order: 'desc', current: true },
 	{ name: 'Best Rating', sortBy: 'rating', order: 'desc', current: false },
@@ -105,10 +111,46 @@ export default function ProductCatalog({
 
 									{/* Mobile Filters*/}
 									<form className='mt-4 border-t border-gray-200'>
-										{categories &&
-											categories.map((category) => (
-												<MobileCategory key={category.id} category={category} />
-											))}
+										<Disclosure
+											as='div'
+											className='border-t border-gray-200 px-4 py-6'
+										>
+											{({ open }) => (
+												<>
+													<h3 className='-mx-2 -my-3 flow-root'>
+														<Disclosure.Button className='px-2 py-3 bg-white w-full flex items-center justify-between text-gray-400 hover:text-gray-500'>
+															<span className='font-medium text-gray-900'>
+																Category
+															</span>
+															<span className='ml-6 flex items-center'>
+																{open ? (
+																	<MinusIcon
+																		className='h-5 w-5'
+																		aria-hidden='true'
+																	/>
+																) : (
+																	<PlusIcon
+																		className='h-5 w-5'
+																		aria-hidden='true'
+																	/>
+																)}
+															</span>
+														</Disclosure.Button>
+													</h3>
+													<Disclosure.Panel className='pt-6'>
+														<div className='space-y-6'>
+															{categories &&
+																categories.map((category) => (
+																	<MobileCategory
+																		key={category.id}
+																		category={category}
+																	/>
+																))}
+														</div>
+													</Disclosure.Panel>
+												</>
+											)}
+										</Disclosure>
 
 										<div className='flex justify-center items-center p-4 w-full'>
 											<div className='flex items-center justify-center my-4 w-full'>
@@ -120,7 +162,11 @@ export default function ProductCatalog({
 											</div>
 										</div>
 										{filters.map((section) => (
-											<MobileOtherFilters key={section.id} filter={section} />
+											<FilterComponent
+												key={section.id}
+												filter={section}
+												isMobile={true}
+											/>
 										))}
 									</form>
 								</Dialog.Panel>
@@ -186,10 +232,40 @@ export default function ProductCatalog({
 						<div className='grid grid-cols-1 lg:grid-cols-4 gap-x-8 gap-y-10'>
 							{/* PC Filters */}
 							<form className='hidden lg:block'>
-								{categories &&
-									categories.map((category) => (
-										<Category key={category.id} category={category} />
-									))}
+								<Disclosure as='div' className='border-b border-gray-200 py-6'>
+									{({ open }) => (
+										<>
+											<h3 className='-my-3 flow-root'>
+												<Disclosure.Button className='py-3 bg-white w-full flex items-center justify-between text-sm text-gray-400 hover:text-gray-500'>
+													<span className='font-medium text-gray-900'>
+														Category
+													</span>
+													<span className='ml-6 flex items-center'>
+														{open ? (
+															<MinusIcon
+																className='h-5 w-5'
+																aria-hidden='true'
+															/>
+														) : (
+															<PlusIcon
+																className='h-5 w-5'
+																aria-hidden='true'
+															/>
+														)}
+													</span>
+												</Disclosure.Button>
+											</h3>
+											<Disclosure.Panel className='pt-6'>
+												<div className='space-y-4'>
+													{categories &&
+														categories.map((category) => (
+															<Category key={category.id} category={category} />
+														))}
+												</div>
+											</Disclosure.Panel>
+										</>
+									)}
+								</Disclosure>
 								<div className='flex justify-center items-center p-4 w-full'>
 									<div className='flex items-center justify-center my-4 w-full'>
 										<div className='border border-gray-300 w-1/6 h-px'></div>
@@ -198,7 +274,11 @@ export default function ProductCatalog({
 									</div>
 								</div>
 								{filters.map((section) => (
-									<OtherFilters key={section.id} filter={section} />
+									<FilterComponent
+										key={section.id}
+										filter={section}
+										isMobile={false}
+									/>
 								))}
 							</form>
 

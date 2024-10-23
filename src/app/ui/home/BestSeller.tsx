@@ -8,7 +8,7 @@ export default async function BestSeller() {
 	});
 	return (
 		<div className='bg-white'>
-			<div className='mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8'>
+			<div className='mx-auto py-16 px-4 sm:py-12 sm:px-6 lg:px-8'>
 				<div className='sm:flex sm:items-baseline sm:justify-between'>
 					<h2 className='text-2xl font-extrabold tracking-tight text-gray-900'>
 						Our Favorites
@@ -41,15 +41,6 @@ export default async function BestSeller() {
 							<p className='mt-1 text-sm text-gray-500'>${product.price}</p>
 						</div>
 					))}
-				</div>
-
-				<div className='mt-6 sm:hidden'>
-					<Link
-						href='/products?sortBy=sold&order=desc'
-						className='block text-sm font-semibold text-indigo-600 hover:text-indigo-500'
-					>
-						Browse all favorites<span aria-hidden='true'> &rarr;</span>
-					</Link>
 				</div>
 			</div>
 		</div>

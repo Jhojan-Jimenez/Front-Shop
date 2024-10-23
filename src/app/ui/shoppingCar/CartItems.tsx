@@ -1,6 +1,71 @@
+'use client';
+import { useCart } from '@/app/context/CartContext';
+import { useLoading } from '@/app/context/LoadingContext';
+import { removeCartItem, updateItemCount } from '@/app/lib/actions/cart';
+import { CartItemSchema } from '@/app/lib/types';
 import Image from 'next/image';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 
-export default function Product() {
+export default function CartItems() {
+	const { userCartItems } = useCart();
+	return (
+		<>
+			{userCartItems &&
+				userCartItems.map((cartItem, idx) => {
+					return (
+						<CartItem
+							cartItem={cartItem}
+							key={idx}
+							setProducts={userCartItems}
+						/>
+					);
+				})}{' '}
+		</>
+	);
+}
+
+function CartItem({
+	cartItem,
+	setProducts,
+}: {
+	cartItem: CartItemSchema;
+	setProducts: any;
+}) {
+	const { setLoading } = useLoading();
+	const { userCartItems, SetCartItems } = useCart();
+	const [amount, setAmount] = useState(cartItem.count);
+	const deleteCartItem = async () => {
+		setLoading(true);
+		try {
+			const res = await removeCartItem(cartItem.product.id);
+			SetCartItems(res);
+			if (res) {
+				return toast.success('Product successfully removed from your cart');
+			}
+		} catch (error: any) {
+			return toast.error(error.message);
+		} finally {
+			setLoading(false);
+		}
+	};
+	const handleAmount = async (num: number) => {
+		const newAmount = amount + num;
+		try {
+			await updateItemCount(cartItem.product.id, newAmount);
+		} catch (error) {
+			if (error.message === 'Outstock') {
+				return toast.error('Not enough of this item in stock');
+			}
+			return toast.error('Server error');
+		}
+		setAmount(newAmount);
+		const updatedCartItems = userCartItems.map((item) =>
+			item.id === cartItem.id ? { ...item, count: newAmount } : item
+		);
+		SetCartItems(updatedCartItems);
+		return;
+	};
 	return (
 		<div className='rounded-lg border border-gray-200 bg-white p-4 shadow-sm  md:p-6'>
 			<div className='space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0'>
@@ -22,8 +87,9 @@ export default function Product() {
 						<button
 							type='button'
 							id='decrement-button'
-							data-input-counter-decrement='counter-input'
-							className='inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 '
+							className={`inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100  `}
+							onClick={() => handleAmount(-1)}
+							disabled={amount === 0}
 						>
 							<svg
 								className='h-2.5 w-2.5 text-gray-900 dark:text-white'
@@ -41,20 +107,18 @@ export default function Product() {
 								/>
 							</svg>
 						</button>
-						<input
-							type='text'
+						<div
 							id='counter-input'
-							data-input-counter
 							className='w-10 shrink-0 border-0 bg-transparent text-center text-sm font-medium text-gray-900 focus:outline-none focus:ring-0 '
-							placeholder=''
-							defaultValue='2'
-							required
-						/>
+						>
+							{amount}
+						</div>
 						<button
 							type='button'
 							id='increment-button'
 							data-input-counter-increment='counter-input'
 							className='inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100 '
+							onClick={() => handleAmount(+1)}
 						>
 							<svg
 								className='h-2.5 w-2.5 text-gray-900 '
@@ -74,7 +138,9 @@ export default function Product() {
 						</button>
 					</div>
 					<div className='text-end md:order-4 md:w-32'>
-						<p className='text-base font-bold text-gray-900 '>$1,499</p>
+						<p className='text-base font-bold text-gray-900 '>
+							${cartItem.product.price * amount}
+						</p>
 					</div>
 				</div>
 
@@ -83,8 +149,7 @@ export default function Product() {
 						href='#'
 						className='text-base font-medium text-gray-900 hover:underline '
 					>
-						PC system All in One APPLE iMac (2023) mqrq3ro/a, Apple M3, 24
-						Retina 4.5K, 8GB, SSD 256GB, 10-core GPU, Keyboard layout INT
+						{cartItem.product.description}
 					</a>
 
 					<div className='flex items-center gap-4'>
@@ -115,6 +180,7 @@ export default function Product() {
 						<button
 							type='button'
 							className='inline-flex items-center text-sm font-medium text-red-600 hover:underline '
+							onClick={deleteCartItem}
 						>
 							<svg
 								className='me-1.5 h-5 w-5'
