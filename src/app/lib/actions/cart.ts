@@ -3,7 +3,7 @@ import axios from 'axios';
 import { cookies } from 'next/headers';
 import { CartItemSchema } from '../types';
 
-// Función auxiliar para crear una instancia de Axios con el token de las cookies
+
 function createApiClient() {
 	const authToken = cookies().get('authToken')?.value;
 
@@ -16,7 +16,7 @@ function createApiClient() {
 	});
 }
 
-// Obtener los items del carrito
+
 export async function getCartItems() {
 	const api = createApiClient();
 
@@ -49,7 +49,7 @@ export async function addCartItem(productId: number) {
 	}
 }
 
-// Obtener el precio total del carrito
+
 export async function totalCartPrice() {
 	const api = createApiClient();
 
@@ -63,7 +63,7 @@ export async function totalCartPrice() {
 	}
 }
 
-// Obtener el número total de items en el carrito
+
 export async function totalCartItems() {
 	const api = createApiClient();
 
@@ -115,12 +115,14 @@ export async function emptyCart() {
 
 	try {
 		const res = await api.delete('empty-cart');
+		console.log(res);
+
 		if (res.status === 200) {
 			return true;
 		}
 	} catch (error) {
-		if (error.response.status === 404) {
-			throw new Error('Your cart is already empty');
+		if (error.response.status === 409) {
+			throw new Error('AlreadyIsEmpty');
 		}
 	}
 }

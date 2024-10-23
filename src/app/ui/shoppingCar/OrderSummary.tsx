@@ -1,7 +1,13 @@
+'use client';
 import { useCart } from '@/app/context/CartContext';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function OrderSummary() {
 	const { total } = useCart();
+	const [finalTotal, setFinalTotal] = useState(total());
+	
+
 	return (
 		<div className='space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm  sm:p-6'>
 			<p className='text-xl font-semibold text-gray-900 '>Order summary</p>
@@ -35,7 +41,7 @@ export default function OrderSummary() {
 
 				<dl className='flex items-center justify-between gap-4 border-t border-gray-200 pt-2 dark:border-gray-700'>
 					<dt className='text-base font-bold text-gray-900 '>Total</dt>
-					<dd className='text-base font-bold text-gray-900 '>$8,191.00</dd>
+					<dd className='text-base font-bold text-gray-900 '>${finalTotal}</dd>
 				</dl>
 			</div>
 
@@ -48,8 +54,8 @@ export default function OrderSummary() {
 
 			<div className='flex items-center justify-center gap-2'>
 				<span className='text-sm font-normal text-gray-500 '> or </span>
-				<a
-					href='#'
+				<Link
+					href='/products'
 					title=''
 					className='inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline '
 				>
@@ -69,7 +75,7 @@ export default function OrderSummary() {
 							d='M19 12H5m14 0-4 4m4-4-4-4'
 						/>
 					</svg>
-				</a>
+				</Link>
 			</div>
 		</div>
 	);

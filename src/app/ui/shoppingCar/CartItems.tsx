@@ -89,7 +89,7 @@ function CartItem({
 							id='decrement-button'
 							className={`inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100  `}
 							onClick={() => handleAmount(-1)}
-							disabled={amount === 0}
+							disabled={amount === 1}
 						>
 							<svg
 								className='h-2.5 w-2.5 text-gray-900 dark:text-white'
