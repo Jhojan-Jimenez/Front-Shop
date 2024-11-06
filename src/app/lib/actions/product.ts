@@ -26,7 +26,7 @@ export async function getProducts(params: FilterOptions) {
 		const res = await api.post('products', data, config);
 		return res.data.filtered_products;
 	} catch (error) {
-		if (error.status == 404) {
+		if (axios.isAxiosError(error) && error.response?.status == 404) {
 			return notFound();
 		}
 	}

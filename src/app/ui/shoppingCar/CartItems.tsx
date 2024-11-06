@@ -4,8 +4,10 @@ import { useLoading } from '@/app/context/LoadingContext';
 import { removeCartItem, updateItemCount } from '@/app/lib/actions/cart';
 import { CartItemSchema } from '@/app/lib/types';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
+import ToggleableHeart from '../Hearth';
 
 export default function CartItems() {
 	const { userCartItems } = useCart();
@@ -54,7 +56,7 @@ function CartItem({
 		try {
 			await updateItemCount(cartItem.product.id, newAmount);
 		} catch (error) {
-			if (error.message === 'Outstock') {
+			if ((error as Error).message === 'Outstock') {
 				return toast.error('Not enough of this item in stock');
 			}
 			return toast.error('Server error');
@@ -69,7 +71,10 @@ function CartItem({
 	return (
 		<div className='rounded-lg border border-gray-200 bg-white p-4 shadow-sm  md:p-6'>
 			<div className='space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0'>
-				<a href='#' className='shrink-0 md:order-1'>
+				<Link
+					href={`products/${cartItem.product.id}`}
+					className='shrink-0 md:order-1'
+				>
 					<Image
 						width={400}
 						height={400}
@@ -77,7 +82,7 @@ function CartItem({
 						src='https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg'
 						alt='imac image'
 					/>
-				</a>
+				</Link>
 
 				<label htmlFor='counter-input' className='sr-only'>
 					Choose quantity:
@@ -145,41 +150,16 @@ function CartItem({
 				</div>
 
 				<div className='w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md'>
-					<a
-						href='#'
-						className='text-base font-medium text-gray-900 hover:underline '
-					>
-						{cartItem.product.description}
-					</a>
+					<p className='text-base font-medium text-gray-900 '>
+						{cartItem.product.description.split('.')[0]}
+					</p>
 
 					<div className='flex items-center gap-4'>
-						<button
-							type='button'
-							className='inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 hover:underline '
-						>
-							<svg
-								className='me-1.5 h-5 w-5'
-								aria-hidden='true'
-								xmlns='http://www.w3.org/2000/svg'
-								width='24'
-								height='24'
-								fill='none'
-								viewBox='0 0 24 24'
-							>
-								<path
-									stroke='currentColor'
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									strokeWidth='2'
-									d='M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z'
-								/>
-							</svg>
-							Add to Favorites
-						</button>
+						<ToggleableHeart size={32} wishItemId={cartItem.product.id} />
 
 						<button
 							type='button'
-							className='inline-flex items-center text-sm font-medium text-red-600 hover:underline '
+							className='inline-flex items-center text-sm font-medium text-red-600 hover:underline pl-10'
 							onClick={deleteCartItem}
 						>
 							<svg

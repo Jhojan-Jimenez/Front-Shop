@@ -22,7 +22,7 @@ export default async function NewestProducts() {
 									alt={product.imageAlt}
 									className='w-full h-full object-center object-cover lg:w-full lg:h-full z-0'
 								/> */}
-								<img className='w-full h-full object-center object-cover lg:w-full lg:h-full z-0 bg-green-300' />
+								{/* <img className='w-full h-full object-center object-cover lg:w-full lg:h-full z-0 bg-green-300' /> */}
 							</div>
 							<div className='mt-4 flex justify-between'>
 								<div>

@@ -1,92 +1,9 @@
 'use client';
 export default function Footer() {
-	const footerNavs = [
-		{
-			label: 'Resources',
-			items: [
-				{
-					href: '#',
-					name: 'contact',
-				},
-				{
-					href: '#',
-					name: 'Support',
-				},
-				{
-					href: '#',
-					name: 'Documentation',
-				},
-				{
-					href: '#',
-					name: 'Pricing',
-				},
-			],
-		},
-		{
-			label: 'About',
-			items: [
-				{
-					href: '#',
-					name: 'Terms',
-				},
-				{
-					href: '#',
-					name: 'License',
-				},
-				{
-					href: '#',
-					name: 'Privacy',
-				},
-				{
-					href: '#',
-					name: 'About US',
-				},
-			],
-		},
-		{
-			label: 'Explore',
-			items: [
-				{
-					href: '#',
-					name: 'Showcase',
-				},
-				{
-					href: '#',
-					name: 'Roadmap',
-				},
-				{
-					href: '#',
-					name: 'Languages',
-				},
-				{
-					href: '#',
-					name: 'Blog',
-				},
-			],
-		},
-		{
-			label: 'Company',
-			items: [
-				{
-					href: '#',
-					name: 'Partners',
-				},
-				{
-					href: '#',
-					name: 'Team',
-				},
-				{
-					href: '#',
-					name: 'Careers',
-				},
-			],
-		},
-	];
-
 	return (
 		<footer className='pt-10 '>
 			<div className='max-w-screen-xl mx-auto px-4 md:px-8'>
-				<div className='justify-between items-center gap-12 md:flex'>
+				{/* <div className='justify-between items-center gap-12 md:flex'>
 					<div className='flex-1 max-w-lg'>
 						<h3 className='text-2xl font-bold'>
 							Get our beautiful newsletter straight to your inbox.
@@ -143,7 +60,7 @@ export default function Footer() {
 							))}
 						</ul>
 					))}
-				</div>
+				</div> */}
 				<div className='mt-10 py-10 border-t items-center justify-between sm:flex'>
 					<p className='text-gray-600'>
 						© 2022 Float UI Inc. All rights reserved.

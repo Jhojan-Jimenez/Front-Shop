@@ -3,7 +3,6 @@
 import { userSignup } from '@/app/lib/actions/sessions';
 import { FormRegData, userRegSchema } from '@/app/lib/validators';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { isAxiosError } from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
@@ -21,22 +20,22 @@ function Page() {
 	const router = useRouter();
 	const regSubmit = async (data: FormRegData) => {
 		try {
-			await userSignup(data);
+			const res = await userSignup(data);
+			if (res) {
+				if (res.email) {
+					setError('email', { type: 'manual', message: res.email });
+				}
+				if (res.password) {
+					setError('password', { type: 'manual', message: res.password });
+				}
+				return;
+			}
+
 			router.push('/products');
 
 			toast.success('We send you an email to activate your account');
 		} catch (error: unknown) {
-			if (isAxiosError(error)) {
-				const errors = error.response?.data;
-				if (errors.email) {
-					setError('email', { type: 'manual', message: errors.email });
-				}
-				if (errors.password) {
-					setError('password', { type: 'manual', message: errors.password });
-				}
-			} else {
-				toast.error('Error en Register Page');
-			}
+			toast.error('Error en Register Page');
 		}
 	};
 

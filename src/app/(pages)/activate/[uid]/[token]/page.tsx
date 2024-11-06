@@ -1,5 +1,4 @@
 'use client';
-import { useAuth } from '@/app/context/AuthContext';
 import { useLoading } from '@/app/context/LoadingContext';
 import { activateUser } from '@/app/lib/actions/sessions';
 import { useRouter } from 'next/navigation';

@@ -3,16 +3,6 @@ import { emptyCart } from '@/app/lib/actions/cart';
 import toast from 'react-hot-toast';
 export const ClearCartButton = () => {
 	const { SetCartItems } = useCart();
-	const onClear = async () => {
-		try {
-			await emptyCart();
-		} catch (error) {
-			if (error.message === 'AlreadyIsEmpty') {
-				return false;
-			}
-		}
-		SetCartItems([]);
-	};
 	const handleClearCart = async () => {
 		const confirmed = window.confirm(
 			'¿Estás seguro de que quieres borrar todos los elementos del carrito?'

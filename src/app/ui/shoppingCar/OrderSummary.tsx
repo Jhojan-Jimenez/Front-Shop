@@ -4,9 +4,13 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
 export default function OrderSummary() {
-	const { total } = useCart();
-	const [finalTotal, setFinalTotal] = useState(total());
-	
+	const { total, couponCode } = useCart();
+	const [finalTotal, setFinalTotal] = useState(0);
+
+	useEffect(() => {
+		const discount = Number(couponCode?.discount_price) || 0;
+		setFinalTotal(Number(total()) - discount + Number(total()) * 0.19);
+	}, [total, couponCode]);
 
 	return (
 		<div className='space-y-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm  sm:p-6'>
@@ -23,19 +27,23 @@ export default function OrderSummary() {
 
 					<dl className='flex items-center justify-between gap-4'>
 						<dt className='text-base font-normal text-gray-500 '>Savings</dt>
-						<dd className='text-base font-medium text-green-600'>-$299.00</dd>
+						<dd className='text-base font-medium text-green-600'>
+							${couponCode?.discount_price}
+						</dd>
 					</dl>
 
 					<dl className='flex items-center justify-between gap-4'>
 						<dt className='text-base font-normal text-gray-500 '>
 							Store Pickup
 						</dt>
-						<dd className='text-base font-medium text-gray-900 '>$99</dd>
+						<dd className='text-base font-medium text-gray-900 '>$0</dd>
 					</dl>
 
 					<dl className='flex items-center justify-between gap-4'>
-						<dt className='text-base font-normal text-gray-500 '>Tax</dt>
-						<dd className='text-base font-medium text-gray-900 '>$799</dd>
+						<dt className='text-base font-normal text-gray-500 '>Tax (19%)</dt>
+						<dd className='text-base font-medium text-gray-900 '>
+							${finalTotal * 0.19}
+						</dd>
 					</dl>
 				</div>
 
@@ -45,12 +53,12 @@ export default function OrderSummary() {
 				</dl>
 			</div>
 
-			<a
-				href='#'
+			<Link
+				href='/shopping/checkout'
 				className='flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 '
 			>
 				Proceed to Checkout
-			</a>
+			</Link>
 
 			<div className='flex items-center justify-center gap-2'>
 				<span className='text-sm font-normal text-gray-500 '> or </span>

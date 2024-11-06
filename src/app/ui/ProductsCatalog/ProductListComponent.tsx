@@ -2,6 +2,7 @@ import { ProductSchema } from '@/app/lib/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import StarRating from '../StarRating';
+import ToggleableHeart from '../Hearth';
 
 export default async function ProductListComponent({
 	product,
@@ -66,28 +67,7 @@ export default async function ProductListComponent({
 							<div className='tooltip-arrow' data-popper-arrow=''></div>
 						</div>
 
-						<button
-							type='button'
-							data-tooltip-target='tooltip-add-to-favorites'
-							className='rounded-lg p-2 text-gray-500 hover:bg-gray-100 hover:text-gray-900 '
-						>
-							<span className='sr-only'> Add to Favorites </span>
-							<svg
-								className='h-5 w-5'
-								aria-hidden='true'
-								xmlns='http://www.w3.org/2000/svg'
-								fill='none'
-								viewBox='0 0 24 24'
-							>
-								<path
-									stroke='currentColor'
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									strokeWidth='2'
-									d='M12 6C6.5 1 1 8 5.8 13l6.2 7 6.2-7C23 8 17.5 1 12 6Z'
-								/>
-							</svg>
-						</button>
+						<ToggleableHeart size={32} wishItemId={product.id} />
 						<div
 							id='tooltip-add-to-favorites'
 							role='tooltip'

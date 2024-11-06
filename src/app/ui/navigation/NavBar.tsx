@@ -111,7 +111,7 @@ function DesktopMenu() {
 	return (
 		<Popover.Group className='hidden lg:flex lg:gap-x-12'>
 			<ProductPopover />
-			<NavLink href='#'>Features</NavLink>
+			<NavLink href='wishlist'>Wishlist</NavLink>
 			<NavLink href='#'>Marketplace</NavLink>
 			<NavLink href='#'>Company</NavLink>
 		</Popover.Group>
@@ -194,6 +194,7 @@ interface DesktopActionsProps {
 }
 
 function DesktopActions({ user, logout }: DesktopActionsProps) {
+	const { refreshLogin } = useContext(AuthContext);
 	return (
 		<div className='hidden lg:flex lg:flex-1 lg:justify-end gap-x-10'>
 			{user ? (
@@ -205,12 +206,19 @@ function DesktopActions({ user, logout }: DesktopActionsProps) {
 				</button>
 			) : (
 				<>
-					<NavLink href='/login'>
+					<Link
+						href={'/login'}
+						className='text-sm font-semibold leading-6 text-gray-900'
+						onClick={refreshLogin}
+					>
 						Log in <span aria-hidden='true'>&rarr;</span>
-					</NavLink>
-					<NavLink href='/register'>
+					</Link>
+					<Link
+						href={'/register'}
+						className='text-sm font-semibold leading-6 text-gray-900'
+					>
 						Register <span aria-hidden='true'>&rarr;</span>
-					</NavLink>
+					</Link>
 				</>
 			)}
 			<Link
@@ -231,6 +239,7 @@ interface MobileMenuProps {
 }
 
 function MobileMenu({ open, setOpen, user, logout }: MobileMenuProps) {
+	const { refreshLogin } = useContext(AuthContext);
 	return (
 		<Dialog as='div' className='lg:hidden' open={open} onClose={setOpen}>
 			<div className='fixed inset-0 z-40' />
@@ -259,23 +268,34 @@ function MobileMenu({ open, setOpen, user, logout }: MobileMenuProps) {
 					<div className='-my-6 divide-y divide-gray-500/10'>
 						<div className='space-y-2 py-6'>
 							<MobileProductDisclosure />
-							<MobileNavLink href='#'>Features</MobileNavLink>
+							<MobileNavLink href='wishlist'>Wishlist</MobileNavLink>
 							<MobileNavLink href='#'>Marketplace</MobileNavLink>
 							<MobileNavLink href='#'>Company</MobileNavLink>
 						</div>
 						<div className='py-6'>
 							{user ? (
-								<MobileNavButton onClick={() => logout()}>
-									Sign Out
-								</MobileNavButton>
+								<Link
+									href={'/login'}
+									className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
+									onClick={() => logout()}
+								>
+									Logout
+								</Link>
 							) : (
 								<>
-									<MobileNavLink href='http://localhost:3000/login'>
-										Log in
-									</MobileNavLink>
-									<MobileNavLink href='http://localhost:3000/register'>
-										Register
-									</MobileNavLink>
+									<Link
+										href={'/login'}
+										className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
+										onClick={refreshLogin}
+									>
+										Log in <span aria-hidden='true'>&rarr;</span>
+									</Link>
+									<Link
+										href={'/login'}
+										className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
+									>
+										Register <span aria-hidden='true'>&rarr;</span>
+									</Link>
 								</>
 							)}
 						</div>
@@ -322,43 +342,20 @@ interface NavLinkProps {
 }
 
 function NavLink({ href, children }: NavLinkProps) {
-	const { refreshLogin } = useContext(AuthContext);
 	return (
-		<Link
-			href={href}
-			className='text-sm font-semibold leading-6 text-gray-900'
-			onClick={refreshLogin}
-		>
+		<Link href={href} className='text-sm font-semibold leading-6 text-gray-900'>
 			{children}
 		</Link>
 	);
 }
 
 function MobileNavLink({ href, children }: NavLinkProps) {
-	const { refreshLogin } = useContext(AuthContext);
 	return (
 		<Link
 			href={href}
 			className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
-			onClick={refreshLogin}
 		>
 			{children}
 		</Link>
-	);
-}
-
-interface MobileNavButtonProps {
-	onClick: () => void;
-	children: React.ReactNode;
-}
-
-function MobileNavButton({ onClick, children }: MobileNavButtonProps) {
-	return (
-		<button
-			className='-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
-			onClick={onClick}
-		>
-			{children}
-		</button>
 	);
 }

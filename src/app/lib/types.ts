@@ -25,7 +25,10 @@ export interface SubCategorySchema {
 	id: number;
 	name: string;
 }
-
+export interface WishItemSchema {
+	id: number;
+	product: ProductSchema;
+}
 export interface ProductSchema {
 	id: number;
 	name: string;
@@ -57,4 +60,32 @@ export interface SortOptionsSchema {
 	current: boolean;
 	sortBy: string;
 	order: 'asc' | 'desc';
+}
+export interface PaymentOrderSchema {
+	shipping_id: number;
+	coupon_name: string;
+	full_name: string;
+	address_line_1: string;
+	address_line_2: string;
+	city: string;
+	state_province_region: string;
+	postal_zip_code: string;
+	country_region: string;
+	telephone_number: string;
+}
+export interface OrderSchema {
+	status: 'not_processed' | 'processing' | 'completed' | 'failed';
+	transaction_id: string;
+	amount: number;
+	shipping_price: number;
+	date_issued: string;
+	address_line_1: string;
+	address_line_2: string;
+}
+export interface ReviewSchema {
+	id: number;
+	rating: number;
+	comment: string;
+	date_created: string;
+	user: string;
 }

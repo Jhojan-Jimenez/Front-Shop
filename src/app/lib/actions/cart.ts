@@ -3,7 +3,6 @@ import axios from 'axios';
 import { cookies } from 'next/headers';
 import { CartItemSchema } from '../types';
 
-
 function createApiClient() {
 	const authToken = cookies().get('authToken')?.value;
 
@@ -15,7 +14,6 @@ function createApiClient() {
 		},
 	});
 }
-
 
 export async function getCartItems() {
 	const api = createApiClient();
@@ -49,7 +47,6 @@ export async function addCartItem(productId: number) {
 	}
 }
 
-
 export async function totalCartPrice() {
 	const api = createApiClient();
 
@@ -62,7 +59,6 @@ export async function totalCartPrice() {
 		console.error('Error getting total cart price:', error);
 	}
 }
-
 
 export async function totalCartItems() {
 	const api = createApiClient();

@@ -16,15 +16,20 @@ interface CartContextType {
 	total: () => number;
 	userCartItems: CartItemSchema[];
 	SetCartItems: any;
+	couponCode: { name: string; discount_price: number } | null;
+	setCouponCode: any;
 }
 const CartContext = createContext<CartContextType>({
 	total: () => 0,
 	userCartItems: [],
 	SetCartItems: () => {},
+	couponCode: null,
+	setCouponCode: () => {},
 });
 export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const { setLoading } = useLoading();
 	const [userCartItems, SetCartItems] = useState([]);
+	const [couponCode, setCouponCode] = useState(null);
 	useEffect(() => {
 		const fetchCart = async () => {
 			setLoading(true);
@@ -41,7 +46,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 			}
 		};
 		fetchCart();
-	}, []);
+	}, [setLoading]);
 	const total = () => {
 		let total = 0;
 		if (userCartItems?.length > 0) {
@@ -52,7 +57,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		return total;
 	};
 	return (
-		<CartContext.Provider value={{ userCartItems, SetCartItems, total }}>
+		<CartContext.Provider
+			value={{ userCartItems, SetCartItems, total, couponCode, setCouponCode }}
+		>
 			{children}
 		</CartContext.Provider>
 	);

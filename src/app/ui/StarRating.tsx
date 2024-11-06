@@ -1,10 +1,13 @@
-import React from 'react';
+'use client';
+import { useState } from 'react';
 
 interface StarRatingProps {
 	rating: number;
 	maxRating?: number;
 	size?: number;
 	color?: string;
+	onRatingChange?: (newRating: number) => void;
+	isInteractive?: boolean; // Nueva propiedad para controlar interactividad
 }
 
 export default function StarRating({
@@ -12,13 +15,23 @@ export default function StarRating({
 	maxRating = 5,
 	size = 24,
 	color = 'text-yellow-400',
+	onRatingChange,
+	isInteractive = false, // Valor predeterminado para visualización sin interacción
 }: StarRatingProps) {
-	const roundedRating = Math.round(rating * 2) / 2; // Round to nearest 0.5
+	const [currentRating, setCurrentRating] = useState(rating);
+
+	const handleRating = (index: number, isHalf: boolean) => {
+		const newRating = index + (isHalf ? 0.5 : 1);
+		setCurrentRating(newRating);
+		if (onRatingChange) onRatingChange(newRating);
+	};
+
+	const roundedRating = Math.round(currentRating * 2) / 2;
 
 	return (
 		<div
 			className='flex items-center'
-			aria-label={`Rating: ${rating} out of ${maxRating} stars`}
+			aria-label={`Rating: ${currentRating} out of ${maxRating} stars`}
 		>
 			{[...Array(maxRating)].map((_, index) => (
 				<Star
@@ -26,6 +39,15 @@ export default function StarRating({
 					filled={Math.min(roundedRating - index, 1)}
 					size={size}
 					color={color}
+					onClick={(e) => {
+						if (isInteractive) {
+							// Solo permite interacción si es `true`
+							const { left, width } = e.currentTarget.getBoundingClientRect();
+							const isHalf = e.clientX < left + width / 2;
+							handleRating(index, isHalf);
+						}
+					}}
+					isInteractive={isInteractive} // Pasar al componente `Star` para ajustar el cursor
 				/>
 			))}
 		</div>
@@ -36,9 +58,11 @@ interface StarProps {
 	filled: number;
 	size: number;
 	color: string;
+	onClick?: (e: React.MouseEvent<SVGElement>) => void;
+	isInteractive: boolean;
 }
 
-function Star({ filled, size, color }: StarProps) {
+function Star({ filled, size, color, onClick, isInteractive }: StarProps) {
 	return (
 		<svg
 			className={color}
@@ -50,6 +74,8 @@ function Star({ filled, size, color }: StarProps) {
 			strokeWidth='2'
 			strokeLinecap='round'
 			strokeLinejoin='round'
+			onClick={isInteractive ? onClick : undefined} // Solo agregar `onClick` si es interactivo
+			style={{ cursor: isInteractive ? 'pointer' : 'default' }} // Cambia el cursor según `isInteractive`
 		>
 			<defs>
 				<linearGradient id={`star-fill-${filled}`}>
@@ -66,22 +92,5 @@ function Star({ filled, size, color }: StarProps) {
 				fill={`url(#star-fill-${filled})`}
 			/>
 		</svg>
-	);
-}
-
-// Example usage
-export function ProductRating() {
-	return (
-		<div className='p-4 bg-white rounded-lg shadow-md'>
-			<h2 className='text-xl font-semibold mb-2'>Product Name</h2>
-			<div className='flex items-center'>
-				<StarRating rating={3.7} />
-				<span className='ml-2 text-gray-600'>(3.7)</span>
-			</div>
-			<p className='mt-2 text-gray-700'>
-				This is an example of how to use the StarRating component in a product
-				display.
-			</p>
-		</div>
 	);
 }

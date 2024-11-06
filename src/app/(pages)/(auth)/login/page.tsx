@@ -1,10 +1,8 @@
 'use client';
 
 import { useAuth } from '@/app/context/AuthContext';
-import { userSignin } from '@/app/lib/actions/users';
 import { FormLogData, userLogSchema } from '@/app/lib/validators';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { isAxiosError } from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -25,7 +23,7 @@ function Page() {
 			await login(formData);
 			router.push('/products');
 		} catch (error: unknown) {
-			if (error.message === 'DoesNotExistUser') {
+			if (error instanceof Error && error.message === 'DoesNotExistUser') {
 				toast.error('There is not a user with those credentials');
 			} else {
 				toast.error('Server Error');

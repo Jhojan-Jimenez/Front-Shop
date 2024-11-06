@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-export default function page({
+export default function Page({
 	params,
 }: {
 	params: { uid: string; token: string };

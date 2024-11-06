@@ -1,6 +1,6 @@
 'use server';
 
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, isAxiosError } from 'axios';
 import { cookies } from 'next/headers';
 import 'server-only';
 import { RegisterUser } from '../types';
@@ -155,13 +155,18 @@ export async function userSignup({
 		password,
 		re_password,
 	});
-
-	const res: AxiosResponse = await api.post('auth/users/', body, config);
-	return res;
+	try {
+		await api.post('auth/users/', body, config);
+	} catch (error) {
+		if (isAxiosError(error) && error.response?.status === 400) {
+			return error.response.data;
+		}
+	}
 }
 
 export async function deleteSession() {
 	cookies().delete('authToken');
+	cookies().delete('refreshToken');
 }
 
 export async function deleteRefresh() {

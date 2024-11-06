@@ -4,11 +4,10 @@ import { resetPassword } from '@/app/lib/actions/sessions';
 import { emailData, emailSchema } from '@/app/lib/validators';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-export default function page() {
+export default function Page() {
 	const {
 		register,
 		handleSubmit,
@@ -17,12 +16,11 @@ export default function page() {
 		resolver: zodResolver(emailSchema),
 	});
 	const { setLoading } = useLoading();
-	const router = useRouter();
 	const newPasswordSubmit = async (formData: emailData) => {
 		setLoading(true);
 		try {
 			await resetPassword(formData.email);
-			toast.success(`We send you an email to change your password`);
+			toast.success('We send you an email to change your password');
 		} catch (error: unknown) {
 			toast.error('Server Error');
 		} finally {
