@@ -94,53 +94,55 @@ export default function Reviews({ product }: { product: ProductSchema }) {
 							})}
 						</div>
 					</div>
-					{reviews && reviews.length > 0 && reviews.map((review) => {
-						return (
-							<div
-								className='py-6 divide-y divide-gray-200 border-y-2'
-								key={review.id}
-							>
-								<div className='gap-3 pb-6 sm:flex sm:items-start'>
-									<div className='shrink-0 space-y-2 sm:w-48 md:w-72'>
-										<StarRating rating={review.rating} />
+					{reviews &&
+						reviews.length > 0 &&
+						reviews.map((review) => {
+							return (
+								<div
+									className='py-6 divide-y divide-gray-200 border-y-2'
+									key={review.id}
+								>
+									<div className='gap-3 pb-6 sm:flex sm:items-start'>
+										<div className='shrink-0 space-y-2 sm:w-48 md:w-72'>
+											<StarRating rating={review.rating} />
 
-										<div className='space-y-0.5'>
-											<p className='text-base font-semibold text-gray-900 '>
-												{review.user}
+											<div className='space-y-0.5'>
+												<p className='text-base font-semibold text-gray-900 '>
+													{review.user}
+												</p>
+												<StylizedDateDisplay dateString={review.date_created} />
+											</div>
+										</div>
+
+										<div className='mt-4 min-w-0 flex-1 space-y-4 sm:mt-0'>
+											<p className='text-base font-normal text-black '>
+												{review.comment}
 											</p>
-											<StylizedDateDisplay dateString={review.date_created} />
+											{user?.first_name === review.user && (
+												<div className='flex items-center gap-4'>
+													<div className='flex space-x-4'>
+														<button className='px-4 py-2 flex items-center justify-center bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-300 ease-in-out'>
+															<Pencil className='w-4 h-4 mr-2' />
+															Edit
+														</button>
+														<button
+															className='px-4 py-2 flex items-center justify-center bg-red-50 text-red-600 rounded-md hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-300 ease-in-out'
+															onClick={async () => {
+																await removeReview(product.id);
+																toast.success('Review deleted successfully');
+															}}
+														>
+															<Trash2 className='w-4 h-4 mr-2' />
+															Delete
+														</button>
+													</div>
+												</div>
+											)}
 										</div>
 									</div>
-
-									<div className='mt-4 min-w-0 flex-1 space-y-4 sm:mt-0'>
-										<p className='text-base font-normal text-black '>
-											{review.comment}
-										</p>
-										{user?.first_name === review.user && (
-											<div className='flex items-center gap-4'>
-												<div className='flex space-x-4'>
-													<button className='px-4 py-2 flex items-center justify-center bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-300 ease-in-out'>
-														<Pencil className='w-4 h-4 mr-2' />
-														Edit
-													</button>
-													<button
-														className='px-4 py-2 flex items-center justify-center bg-red-50 text-red-600 rounded-md hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-300 ease-in-out'
-														onClick={async () => {
-															await removeReview(product.id);
-															toast.success('Review deleted successfully');
-														}}
-													>
-														<Trash2 className='w-4 h-4 mr-2' />
-														Delete
-													</button>
-												</div>
-											</div>
-										)}
-									</div>
 								</div>
-							</div>
-						);
-					})}
+							);
+						})}
 				</div>
 			</section>
 			{showModal && (
