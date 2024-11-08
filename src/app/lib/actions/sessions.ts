@@ -17,7 +17,7 @@ export async function encrypt(email: string, password: string) {
 	try {
 		const res: AxiosResponse = await api.post('auth/jwt/create/', body);
 		return res.data;
-	} catch (error: any) {
+	} catch {
 		throw new Error('Error encrypting credentials');
 	}
 }
@@ -26,8 +26,8 @@ export async function verifyToken(token: string) {
 	const body = JSON.stringify({ token });
 	try {
 		await api.post('auth/jwt/verify/', body);
-	} catch (error: any) {
-		if (error.response?.status === 401) {
+	} catch (error: unknown) {
+		if (axios.isAxiosError(error) && error.response?.status === 401) {
 			await deleteSession();
 			throw new Error('InvalidToken');
 		}
@@ -47,7 +47,7 @@ export async function refreshAuthToken() {
 			sameSite: 'lax',
 			path: '/',
 		});
-	} catch (error: any) {
+	} catch {
 		throw new Error('Error refreshing token');
 	}
 }
@@ -61,7 +61,7 @@ export async function decrypt(sessionToken: string | undefined = '') {
 	try {
 		const res: AxiosResponse = await api.get('auth/users/me/', config);
 		return res.data;
-	} catch (error: any) {
+	} catch {
 		throw new Error('Error decrypting session token');
 	}
 }
@@ -84,7 +84,7 @@ export async function createSession(userEmail: string, userPassword: string) {
 			path: '/',
 		});
 		return access;
-	} catch (error: any) {
+	} catch {
 		throw new Error('Error creating session');
 	}
 }
@@ -93,10 +93,10 @@ export async function activateUser(uid: string, token: string) {
 	const body = JSON.stringify({ uid, token });
 	try {
 		await api.post('auth/users/activation/', body);
-	} catch (error: any) {
-		if (error.response?.status === 403) {
+	} catch (error: unknown) {
+		if (axios.isAxiosError(error) && error.response?.status === 403) {
 			throw new Error('UserAlreadyIsActivate');
-		} else if (error.response?.status === 400) {
+		} else if (axios.isAxiosError(error) && error.response?.status === 400) {
 			throw new Error('InvalidCredentials');
 		}
 		throw new Error('Error activating user');
@@ -107,8 +107,8 @@ export async function resetPassword(email: string) {
 	const body = JSON.stringify({ email });
 	try {
 		await api.post('auth/users/reset_password/', body);
-	} catch (error: any) {
-		if (error.response?.status === 400) {
+	} catch (error: unknown) {
+		if (isAxiosError(error) && error.response?.status === 400) {
 			throw new Error('DoesNotExistThisEmail');
 		}
 		throw new Error('Error resetting password');
@@ -129,8 +129,8 @@ export async function resetPasswordConfirm(
 	});
 	try {
 		await api.post('auth/users/reset_password_confirm/', body);
-	} catch (error: any) {
-		if (error.response?.status === 400) {
+	} catch (error: unknown) {
+		if (isAxiosError(error) && error.response?.status === 400) {
 			throw new Error('Invalid password reset request');
 		}
 		throw new Error('Error confirming password reset');

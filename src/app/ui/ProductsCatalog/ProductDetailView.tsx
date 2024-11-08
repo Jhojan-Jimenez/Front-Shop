@@ -26,8 +26,12 @@ export default function ProductDetailView({
 			} else {
 				throw new Error('No response or empty response from server');
 			}
-		} catch (error: any) {
-			return toast.error(error.message);
+		} catch (error: unknown) {
+			if (error instanceof Error) {
+				return toast.error(error.message);
+			} else {
+				return toast.error('An unknown error occurred');
+			}
 		} finally {
 			setLoading(false);
 		}

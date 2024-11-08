@@ -19,7 +19,7 @@ export default function Reviews({ product }: { product: ProductSchema }) {
 			setReviews(res);
 		};
 		fetchReviews();
-	}, []);
+	}, [product.id]);
 
 	return (
 		<>

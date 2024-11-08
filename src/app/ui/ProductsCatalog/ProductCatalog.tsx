@@ -1,19 +1,18 @@
 'use client';
 import { CategorySchema, SortOptionsSchema } from '@/app/lib/types';
-import { Dialog, Menu, Transition } from '@headlessui/react';
+import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
-import { ChevronDownIcon, FunnelIcon } from '@heroicons/react/24/solid';
+import {
+	ChevronDownIcon,
+	FunnelIcon,
+	MinusIcon,
+	PlusIcon,
+} from '@heroicons/react/24/solid';
 import { Fragment, ReactNode, useState } from 'react';
 import { Category, MobileCategory } from './Filters/Category';
-import {
-	FilterComponent,
-	MobileOtherFilters,
-	OtherFilters,
-} from './Filters/OtherFilters';
-import { MinusIcon, PlusIcon } from '@heroicons/react/24/solid';
-import SortOption from './Filters/SortOption';
+import { FilterComponent } from './Filters/OtherFilters';
 import SearchInput from './Filters/SearchInput';
-import { Disclosure } from '@headlessui/react';
+import SortOption from './Filters/SortOption';
 const sortOptions: SortOptionsSchema[] = [
 	{ name: 'Most Popular', sortBy: 'sold', order: 'desc', current: true },
 	{ name: 'Best Rating', sortBy: 'rating', order: 'desc', current: false },

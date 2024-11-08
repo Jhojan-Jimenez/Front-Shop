@@ -34,7 +34,7 @@ function Page() {
 			router.push('/products');
 
 			toast.success('We send you an email to activate your account');
-		} catch (error: unknown) {
+		} catch {
 			toast.error('Error en Register Page');
 		}
 	};

@@ -22,6 +22,7 @@ import { useLoading } from './LoadingContext';
 
 interface AuthContextType {
 	user: UserSchema | null;
+	// eslint-disable-next-line no-unused-vars
 	login: (user: LoginUser) => Promise<void>;
 	logout: () => Promise<void>;
 	refreshLogin: () => Promise<void>;
@@ -52,8 +53,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 					const { id, email, first_name, last_name } = await decrypt(token);
 					setUser({ id, email, first_name, last_name });
 				}
-			} catch (error: any) {
-				if (error.message === 'InvalidToken') {
+			} catch (error: unknown) {
+				if (error instanceof Error && error.message === 'InvalidToken') {
 					toast.error('Please log in again.');
 				} else {
 					console.error('Error loading user data:', error);

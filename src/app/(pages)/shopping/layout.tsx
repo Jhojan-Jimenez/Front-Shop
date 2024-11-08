@@ -66,7 +66,10 @@ export default function Layout({ children }: { children: ReactNode }) {
 					</Link>
 					<Link
 						href='/shopping/orders'
-						className={`after:border-1 flex items-center text-primary-700 after:mx-6 after:hidden after:h-1 after:w-full after:border-b sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10`}
+						className={
+							// eslint-disable-next-line quotes
+							"after:border-1 flex items-center text-primary-700 after:mx-6 after:hidden after:h-1 after:w-full after:border-b sm:after:inline-block sm:after:content-[''] md:w-full xl:after:mx-10"
+						}
 					>
 						<span
 							className={`flex items-center after:mx-2 after:text-gray-200 after:content-['/']  sm:after:hidden ${pathname == '/shopping/orders' ? 'text-blue-700' : 'text-black'} `}

@@ -17,7 +17,6 @@ export default function CreateReview({
 	const {
 		register,
 		handleSubmit,
-		setError,
 		formState: { errors },
 	} = useForm<PostReviewData>({
 		resolver: zodResolver(PostReviewForm),
@@ -26,7 +25,7 @@ export default function CreateReview({
 		try {
 			await createReview(productId, { rating, comment: data.comment });
 		} catch (error) {
-			if (error.message === 'AlreadyHaveReview') {
+			if (error instanceof Error && error.message === 'AlreadyHaveReview') {
 				toast.error('You already have a review for this product');
 			}
 		}

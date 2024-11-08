@@ -35,8 +35,8 @@ export async function getProductById(id: number) {
 	try {
 		const res = await api.get(`/${id}`);
 		return res.data.product;
-	} catch (error: any) {
-		if (error.status == 404) {
+	} catch (error: unknown) {
+		if (axios.isAxiosError(error) && error.response?.status == 404) {
 			return notFound();
 		}
 	}

@@ -38,7 +38,7 @@ export async function addWishListItem(productId: number) {
 			return res.data.wishlist;
 		}
 	} catch (error) {
-		if ((error as any).response.status === 409) {
+		if (axios.isAxiosError(error) && error.response?.status === 409) {
 			throw new Error('ItemAlreadyInWishlist');
 		}
 		return;

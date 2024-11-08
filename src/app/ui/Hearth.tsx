@@ -42,7 +42,7 @@ export default function ToggleableHeart({
 					position: 'bottom-right',
 				});
 			}
-		} catch (error) {
+		} catch {
 			toast.error('An error occurred');
 		}
 		setIsFilled(newState);

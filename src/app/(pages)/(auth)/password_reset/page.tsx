@@ -21,7 +21,7 @@ export default function Page() {
 		try {
 			await resetPassword(formData.email);
 			toast.success('We send you an email to change your password');
-		} catch (error: unknown) {
+		} catch {
 			toast.error('Server Error');
 		} finally {
 			setLoading(false);

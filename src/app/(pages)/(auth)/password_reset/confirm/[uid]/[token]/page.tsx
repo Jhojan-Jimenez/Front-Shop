@@ -33,7 +33,7 @@ export default function Page({
 			);
 			router.push('/login');
 			toast.success('Password Correctly changed');
-		} catch (error: unknown) {
+		} catch {
 			toast.error('Server Error');
 		} finally {
 			setLoading(false);

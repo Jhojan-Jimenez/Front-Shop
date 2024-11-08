@@ -15,9 +15,11 @@ import toast from 'react-hot-toast';
 interface CartContextType {
 	total: () => number;
 	userCartItems: CartItemSchema[];
-	SetCartItems: any;
+	SetCartItems: React.Dispatch<React.SetStateAction<CartItemSchema[]>>;
 	couponCode: { name: string; discount_price: number } | null;
-	setCouponCode: any;
+	setCouponCode: React.Dispatch<
+		React.SetStateAction<{ name: string; discount_price: number } | null>
+	>;
 }
 const CartContext = createContext<CartContextType>({
 	total: () => 0,
@@ -28,8 +30,11 @@ const CartContext = createContext<CartContextType>({
 });
 export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const { setLoading } = useLoading();
-	const [userCartItems, SetCartItems] = useState([]);
-	const [couponCode, setCouponCode] = useState(null);
+	const [userCartItems, SetCartItems] = useState<CartItemSchema[]>([]);
+	const [couponCode, setCouponCode] = useState<{
+		name: string;
+		discount_price: number;
+	} | null>(null);
 	useEffect(() => {
 		const fetchCart = async () => {
 			setLoading(true);
@@ -39,7 +44,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 					const cartProds = await getCartItems();
 					SetCartItems(cartProds);
 				}
-			} catch (error: any) {
+			} catch {
 				toast.error('Error loading user Cart Items');
 			} finally {
 				setLoading(false);

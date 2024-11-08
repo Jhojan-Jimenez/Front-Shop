@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getShippingOptions } from '@/app/lib/actions/shipping';
 
+// eslint-disable-next-line no-unused-vars
 interface ShippingOp {
 	id: number;
 	name: string;
@@ -11,6 +12,7 @@ interface ShippingOp {
 export default function ShippingOp({
 	onSelect,
 }: {
+	// eslint-disable-next-line no-unused-vars
 	onSelect: (id: number) => void;
 }) {
 	const [shippingOps, setOps] = useState<ShippingOp[]>([]);

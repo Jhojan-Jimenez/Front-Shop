@@ -83,7 +83,7 @@ export async function removeReview(productId: number) {
 		if (res.status === 200) {
 			return res.data.reviews;
 		}
-	} catch (error) {
+	} catch {
 		return;
 	}
 }

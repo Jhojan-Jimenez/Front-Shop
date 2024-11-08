@@ -13,7 +13,7 @@ export const useLoader = () => {
 		try {
 			await asyncFunction(); // Ejecuta la función asíncrona
 			toast.success(onSuccessMessage); // Muestra un toast de éxito
-		} catch (error: any) {
+		} catch (error: unknown) {
 			throw error;
 		} finally {
 			setLoading(false); // Desactiva el loader

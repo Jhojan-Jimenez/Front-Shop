@@ -38,8 +38,8 @@ export async function addCartItem(productId: number) {
 		if (res.status === 200) {
 			return true;
 		}
-	} catch (error: any) {
-		if (error.response) {
+	} catch (error: unknown) {
+		if (axios.isAxiosError(error) && error.response) {
 			throw new Error(error.response.data.error || 'An error occurred');
 		} else {
 			throw new Error('An unknown error occurred');
@@ -102,7 +102,9 @@ export async function removeCartItem(productId: number) {
 		if (res.status === 200) {
 			return res.data.cart;
 		}
-	} catch (error) {}
+	} catch {
+		return;
+	}
 }
 
 // Vaciar el carrito
@@ -116,8 +118,8 @@ export async function emptyCart() {
 		if (res.status === 200) {
 			return true;
 		}
-	} catch (error) {
-		if (error.response.status === 409) {
+	} catch (error: unknown) {
+		if (axios.isAxiosError(error) && error.response?.status === 409) {
 			throw new Error('AlreadyIsEmpty');
 		}
 	}

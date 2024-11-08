@@ -1,5 +1,3 @@
-import { totalCartItems, totalCartPrice } from '@/app/lib/actions/cart';
-import CodeForm from './CodeForm';
 import OrderSummary from './OrderSummary';
 
 export default function AsideSummary() {

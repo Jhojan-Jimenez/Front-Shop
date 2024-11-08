@@ -6,8 +6,9 @@ interface StarRatingProps {
 	maxRating?: number;
 	size?: number;
 	color?: string;
+	// eslint-disable-next-line no-unused-vars
 	onRatingChange?: (newRating: number) => void;
-	isInteractive?: boolean; // Nueva propiedad para controlar interactividad
+	isInteractive?: boolean;
 }
 
 export default function StarRating({
@@ -16,7 +17,7 @@ export default function StarRating({
 	size = 24,
 	color = 'text-yellow-400',
 	onRatingChange,
-	isInteractive = false, // Valor predeterminado para visualización sin interacción
+	isInteractive = false,
 }: StarRatingProps) {
 	const [currentRating, setCurrentRating] = useState(rating);
 
@@ -41,13 +42,12 @@ export default function StarRating({
 					color={color}
 					onClick={(e) => {
 						if (isInteractive) {
-							// Solo permite interacción si es `true`
 							const { left, width } = e.currentTarget.getBoundingClientRect();
 							const isHalf = e.clientX < left + width / 2;
 							handleRating(index, isHalf);
 						}
 					}}
-					isInteractive={isInteractive} // Pasar al componente `Star` para ajustar el cursor
+					isInteractive={isInteractive}
 				/>
 			))}
 		</div>
@@ -58,6 +58,7 @@ interface StarProps {
 	filled: number;
 	size: number;
 	color: string;
+	// eslint-disable-next-line no-unused-vars
 	onClick?: (e: React.MouseEvent<SVGElement>) => void;
 	isInteractive: boolean;
 }
@@ -74,8 +75,8 @@ function Star({ filled, size, color, onClick, isInteractive }: StarProps) {
 			strokeWidth='2'
 			strokeLinecap='round'
 			strokeLinejoin='round'
-			onClick={isInteractive ? onClick : undefined} // Solo agregar `onClick` si es interactivo
-			style={{ cursor: isInteractive ? 'pointer' : 'default' }} // Cambia el cursor según `isInteractive`
+			onClick={isInteractive ? onClick : undefined}
+			style={{ cursor: isInteractive ? 'pointer' : 'default' }}
 		>
 			<defs>
 				<linearGradient id={`star-fill-${filled}`}>

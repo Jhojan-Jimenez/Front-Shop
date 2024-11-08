@@ -1,5 +1,6 @@
 'use client';
 import AuthContext, { useAuth } from '@/app/context/AuthContext';
+import { UserSchema } from '@/app/lib/types';
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
 import {
 	Bars3Icon,
@@ -91,6 +92,7 @@ export default function Navigation() {
 function MobileMenuButton({
 	setMobileMenuOpen,
 }: {
+	// eslint-disable-next-line no-unused-vars
 	setMobileMenuOpen: (open: boolean) => void;
 }) {
 	return (
@@ -189,7 +191,7 @@ function CallToActionItem({ item }: { item: CallToAction }) {
 }
 
 interface DesktopActionsProps {
-	user: any; // Replace 'any' with the actual user type from your auth context
+	user: UserSchema;
 	logout: () => void;
 }
 
@@ -233,8 +235,9 @@ function DesktopActions({ user, logout }: DesktopActionsProps) {
 
 interface MobileMenuProps {
 	open: boolean;
+	// eslint-disable-next-line no-unused-vars
 	setOpen: (open: boolean) => void;
-	user: any; // Replace 'any' with the actual user type from your auth context
+	user: UserSchema;
 	logout: () => void;
 }
 

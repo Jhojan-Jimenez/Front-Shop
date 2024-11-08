@@ -15,25 +15,13 @@ export default function CartItems() {
 		<>
 			{userCartItems &&
 				userCartItems.map((cartItem, idx) => {
-					return (
-						<CartItem
-							cartItem={cartItem}
-							key={idx}
-							setProducts={userCartItems}
-						/>
-					);
+					return <CartItem cartItem={cartItem} key={idx} />;
 				})}{' '}
 		</>
 	);
 }
 
-function CartItem({
-	cartItem,
-	setProducts,
-}: {
-	cartItem: CartItemSchema;
-	setProducts: any;
-}) {
+function CartItem({ cartItem }: { cartItem: CartItemSchema }) {
 	const { setLoading } = useLoading();
 	const { userCartItems, SetCartItems } = useCart();
 	const [amount, setAmount] = useState(cartItem.count);
@@ -45,8 +33,8 @@ function CartItem({
 			if (res) {
 				return toast.success('Product successfully removed from your cart');
 			}
-		} catch (error: any) {
-			return toast.error(error.message);
+		} catch (error: unknown) {
+			return toast.error((error as Error).message);
 		} finally {
 			setLoading(false);
 		}
@@ -92,7 +80,9 @@ function CartItem({
 						<button
 							type='button'
 							id='decrement-button'
-							className={`inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100  `}
+							className={
+								'inline-flex h-5 w-5 shrink-0 items-center justify-center rounded-md border border-gray-300 bg-gray-100 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-100  '
+							}
 							onClick={() => handleAmount(-1)}
 							disabled={amount === 1}
 						>

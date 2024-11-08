@@ -4,7 +4,7 @@ import Loader from '../ui/modals/Loader';
 
 interface LoadingContextType {
 	loading: boolean;
-	setLoading: any;
+	setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }
 const LoadingContext = createContext<LoadingContextType>({
 	loading: false,

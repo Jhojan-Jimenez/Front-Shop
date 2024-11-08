@@ -17,10 +17,13 @@ export default function Page({
 			await activateUser(params.uid, params.token);
 			router.push('/products');
 			toast.success('User correctly activated');
-		} catch (error: any) {
-			if (error.message === 'UserAlreadyIsActivate') {
+		} catch (error: unknown) {
+			if (error instanceof Error && error.message === 'UserAlreadyIsActivate') {
 				toast.error('This user already is activate');
-			} else if (error.message === 'InvalidCredentials') {
+			} else if (
+				error instanceof Error &&
+				error.message === 'InvalidCredentials'
+			) {
 				toast.error('Invalid credentials');
 			} else {
 				toast.error('Server Error');
