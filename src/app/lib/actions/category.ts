@@ -7,7 +7,7 @@ const api = axios.create({
 });
 export async function getCategories() {
 	console.log(NEXT_PUBLIC_MORTSHOP_API);
-	
+
 	const res = await api.get('categories');
 	return res.data.categories;
 }
