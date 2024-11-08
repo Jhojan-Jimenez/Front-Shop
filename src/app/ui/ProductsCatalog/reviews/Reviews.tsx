@@ -55,9 +55,12 @@ export default function Reviews({ product }: { product: ProductSchema }) {
 
 						<div className='mt-6 min-w-0 flex-1 space-y-3 sm:mt-0'>
 							{[5, 4, 3, 2, 1].map((rating, index) => {
-								const numReviews = reviews.filter(
-									(item) => item.rating > rating - 1 && item.rating <= rating
-								)?.length;
+								const numReviews = Array.isArray(reviews)
+									? reviews.filter(
+											(item) =>
+												item.rating > rating - 1 && item.rating <= rating
+										).length
+									: 0;
 
 								return (
 									<div className='flex items-center gap-2' key={index}>
@@ -78,7 +81,7 @@ export default function Reviews({ product }: { product: ProductSchema }) {
 											<div
 												className='h-1.5 rounded-full bg-yellow-300'
 												style={{
-													width: `${(numReviews / reviews?.length) * 100}%`,
+													width: `${reviews?.length ? (numReviews / reviews.length) * 100 : 0}%`,
 												}}
 											></div>
 										</div>
