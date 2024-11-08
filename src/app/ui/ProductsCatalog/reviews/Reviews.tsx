@@ -32,7 +32,7 @@ export default function Reviews({ product }: { product: ProductSchema }) {
 							<StarRating rating={product.rating} />
 							<p className='text-sm font-medium leading-none text-gray-900 underline hover:no-underline '>
 								{' '}
-								{reviews.length} Reviews{' '}
+								{reviews?.length} Reviews{' '}
 							</p>
 						</div>
 					</div>
