@@ -94,7 +94,7 @@ export default function Reviews({ product }: { product: ProductSchema }) {
 							})}
 						</div>
 					</div>
-					{reviews.map((review) => {
+					{reviews && reviews.length > 0 && reviews.map((review) => {
 						return (
 							<div
 								className='py-6 divide-y divide-gray-200 border-y-2'
