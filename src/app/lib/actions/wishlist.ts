@@ -23,7 +23,7 @@ export async function getWishList() {
 			return res.data.wishlist;
 		}
 	} catch (error) {
-		console.error('Error getting cart items:', error);
+		console.error('Error getting wish items:', error);
 		return;
 	}
 }
@@ -53,7 +53,7 @@ export async function removeWishListItem(productId: number) {
 			return res.data.wishlist;
 		}
 	} catch (error) {
-		console.error('Error getting cart items:', error);
+		console.error('Error remove wish items:', error);
 		return;
 	}
 }
@@ -66,7 +66,7 @@ export async function haveWishListItem(productId: number) {
 			return res.data.exists;
 		}
 	} catch (error) {
-		console.error('Error getting cart items:', error);
+		console.error('Error in have WishList items:', error);
 		return;
 	}
 }

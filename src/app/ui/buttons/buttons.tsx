@@ -1,15 +1,19 @@
+import { useAuth } from '@/app/context/AuthContext';
 import { useCart } from '@/app/context/CartContext';
+import { Unk } from '@/app/lib/actions/AnonymUser';
 import { emptyCart } from '@/app/lib/actions/cart';
 import toast from 'react-hot-toast';
 export const ClearCartButton = () => {
 	const { SetCartItems } = useCart();
+	const { user } = useAuth();
 	const handleClearCart = async () => {
 		const confirmed = window.confirm(
 			'¿Estás seguro de que quieres borrar todos los elementos del carrito?'
 		);
 		if (confirmed) {
 			try {
-				await emptyCart();
+				// eslint-disable-next-line @typescript-eslint/no-unused-expressions
+				user ? await emptyCart() : Unk.emptyCart();
 				SetCartItems([]);
 				toast.success('Todos los elementos del carrito han sido borrados.'); //
 			} catch (error) {

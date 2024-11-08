@@ -56,7 +56,6 @@ const callsToAction: CallToAction[] = [
 export default function Navigation() {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 	const { user, logout } = useAuth();
-
 	return (
 		<div className='bg-white shadow-md shadow-gray-200 w-full'>
 			<nav className='mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8'>
@@ -113,7 +112,7 @@ function DesktopMenu() {
 	return (
 		<Popover.Group className='hidden lg:flex lg:gap-x-12'>
 			<ProductPopover />
-			<NavLink href='wishlist'>Wishlist</NavLink>
+			<NavLink href={'/wishlist'}>Wishlist</NavLink>
 			<NavLink href='#'>Marketplace</NavLink>
 			<NavLink href='#'>Company</NavLink>
 		</Popover.Group>
@@ -166,10 +165,10 @@ function ProductItem({ item }: { item: Product }) {
 				/>
 			</div>
 			<div className='flex-auto'>
-				<a href={item.href} className='block font-semibold text-gray-900'>
+				<Link href={item.href} className='block font-semibold text-gray-900'>
 					{item.name}
 					<span className='absolute inset-0' />
-				</a>
+				</Link>
 				<p className='mt-1 text-gray-600'>{item.description}</p>
 			</div>
 		</div>
@@ -178,7 +177,7 @@ function ProductItem({ item }: { item: Product }) {
 
 function CallToActionItem({ item }: { item: CallToAction }) {
 	return (
-		<a
+		<Link
 			href={item.href}
 			className='flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100'
 		>
@@ -186,7 +185,7 @@ function CallToActionItem({ item }: { item: CallToAction }) {
 				{item.icon}
 			</span>
 			{item.name}
-		</a>
+		</Link>
 	);
 }
 
@@ -248,7 +247,7 @@ function MobileMenu({ open, setOpen, user, logout }: MobileMenuProps) {
 			<div className='fixed inset-0 z-40' />
 			<Dialog.Panel className='fixed inset-y-0 right-0 z-40 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10'>
 				<div className='flex items-center justify-between'>
-					<a href='#' className='-m-1.5 p-1.5'>
+					<Link href='/' className='-m-1.5 p-1.5'>
 						<span className='sr-only'>Your Company</span>
 						<Image
 							width={400}
@@ -257,7 +256,7 @@ function MobileMenu({ open, setOpen, user, logout }: MobileMenuProps) {
 							src='/images/ShopIcon.jpg'
 							className='h-8 w-auto'
 						/>
-					</a>
+					</Link>
 					<button
 						type='button'
 						className='-m-2.5 rounded-md p-2.5 text-gray-700'

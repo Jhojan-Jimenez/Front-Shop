@@ -1,14 +1,29 @@
-'use server';
+'use client';
+import { useAuth } from '@/app/context/AuthContext';
+import { Unk } from '@/app/lib/actions/AnonymUser';
 import { getWishList } from '@/app/lib/actions/wishlist';
 import { WishItemSchema } from '@/app/lib/types';
 import WishListItems from '@/app/ui/wishlist/WishListItems';
+import { useEffect, useState } from 'react';
 
-export default async function page() {
-	const items: [WishItemSchema] = await getWishList();
+export default function Page() {
+	const [items, setItems] = useState<WishItemSchema[]>([]);
+	const { user } = useAuth();
+
+	useEffect(() => {
+		async function fetchWishlist() {
+			const wishlistItems = user
+				? await getWishList()
+				: await Unk.getWishList();
+			setItems(wishlistItems);
+		}
+		fetchWishlist();
+	}, [user]);
+
 	return (
 		<div className='mx-auto max-w-screen-xl px-4 2xl:px-0'>
 			<div className='flex flex-row justify-between'>
-				<h2 className='text-xl font-semibold text-gray-900  sm:text-2xl p-8'>
+				<h2 className='text-xl font-semibold text-gray-900 sm:text-2xl p-8'>
 					Wishlist
 				</h2>
 			</div>

@@ -40,6 +40,8 @@ export async function makePayment(data: PaymentOrderSchema) {
 			return res.data.success;
 		}
 	} catch (error) {
+		console.log(error);
+
 		if (axios.isAxiosError(error) && error.response?.status === 404) {
 			throw new Error('NotCartItems');
 		}

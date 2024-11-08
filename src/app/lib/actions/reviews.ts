@@ -14,7 +14,12 @@ function createApiClient() {
 	});
 }
 export async function getReviews(productId: number) {
-	const api = createApiClient();
+	const api = axios.create({
+		baseURL: `${BACK_API}api/reviews/`,
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
 
 	try {
 		const res = await api.get(`get-reviews/${productId}`);

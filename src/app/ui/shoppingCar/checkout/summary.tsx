@@ -1,17 +1,12 @@
 'use client';
 import { useCart } from '@/app/context/CartContext';
-import CodeForm from '../CodeForm';
 import { useEffect, useState } from 'react';
-import { PaymentOrderSchema } from '@/app/lib/types';
-import { SubmitHandler } from 'react-hook-form';
+import CodeForm from '../CodeForm';
 export default function Summary({
-	handleSubmit,
-	paymentSubmit,
+	action,
 }: {
 	// eslint-disable-next-line no-unused-vars
-	handleSubmit: (callback: SubmitHandler<PaymentOrderSchema>) => void;
-	// eslint-disable-next-line no-unused-vars
-	paymentSubmit: SubmitHandler<PaymentOrderSchema>;
+	action: (e?: React.BaseSyntheticEvent) => Promise<void>;
 }) {
 	const { total, couponCode } = useCart();
 	const [finalTotal, setFinalTotal] = useState(0);
@@ -66,7 +61,7 @@ export default function Summary({
 				<button
 					type='button'
 					className='flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-black hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 '
-					onClick={() => handleSubmit(paymentSubmit)}
+					onClick={() => action()}
 				>
 					Proceed to Payment
 				</button>

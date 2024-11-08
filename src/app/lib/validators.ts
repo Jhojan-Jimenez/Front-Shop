@@ -62,20 +62,20 @@ export const PaymentSchema = z.object({
 		.min(1, 'Is required')
 		.min(3, 'Must have more than 3 chars')
 		.refine((value) => /^[a-zA-Z]+$/.test(value), {
-			message: 'Username must contain only letters',
+			message: 'Full name must contain only letters',
 		}),
 	address_line_1: z
 		.string()
 		.min(1, 'Is required')
 		.min(3, 'Must have more than 3 chars')
-		.refine((value) => /^[a-zA-Z]+$/.test(value), {
-			message: 'Username must contain only letters',
+		.regex(/^[a-zA-Z0-9]+$/, {
+			message: 'Address must contain only letters and numbers',
 		}),
 	address_line_2: z
 		.string()
 		.min(3, 'Must have more than 3 chars')
-		.refine((value) => /^[a-zA-Z]+$/.test(value), {
-			message: 'Username must contain only letters',
+		.regex(/^[a-zA-Z0-9]+$/, {
+			message: 'Address must contain only letters and numbers',
 		})
 		.optional(),
 	state_province_region: z
@@ -90,8 +90,8 @@ export const PaymentSchema = z.object({
 		.string()
 		.min(1, 'Is required')
 		.min(3, 'Must have more than 3 chars')
-		.refine((value) => /^[a-zA-Z]+$/.test(value), {
-			message: 'Username must contain only letters',
+		.regex(/^\d+$/, {
+			message: 'Postal must contain only numbers',
 		})
 		.optional(),
 	telephone_number: z

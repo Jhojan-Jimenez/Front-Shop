@@ -15,8 +15,8 @@ export default function Page({
 		setLoading(true);
 		try {
 			await activateUser(params.uid, params.token);
-			router.push('/products');
-			toast.success('User correctly activated');
+			router.push('/login');
+			toast.success('User correctly activated, now you can login');
 		} catch (error: unknown) {
 			if (error instanceof Error && error.message === 'UserAlreadyIsActivate') {
 				toast.error('This user already is activate');
