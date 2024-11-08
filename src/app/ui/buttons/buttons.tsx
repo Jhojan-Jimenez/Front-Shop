@@ -13,7 +13,7 @@ export const ClearCartButton = () => {
 				SetCartItems([]);
 				toast.success('Todos los elementos del carrito han sido borrados.'); //
 			} catch (error) {
-				if (error.message === 'AlreadyIsEmpty') {
+				if (error instanceof Error && error.message === 'AlreadyIsEmpty') {
 					return toast.success('Your cart already is empty');
 				}
 			}
