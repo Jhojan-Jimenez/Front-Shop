@@ -6,12 +6,12 @@ import {
 	useEffect,
 	useState,
 } from 'react';
-import { CartItemSchema } from '../lib/types';
-import { useLoading } from './LoadingContext';
-import { getCartItems } from '../lib/actions/cart';
-import { getToken } from '../lib/actions/sessions';
 import toast from 'react-hot-toast';
 import { Unk } from '../lib/actions/AnonymUser';
+import { getCartItems } from '../lib/actions/cart';
+import { CartItemSchema } from '../lib/types';
+import { useAuth } from './AuthContext';
+import { useLoading } from './LoadingContext';
 
 interface CartContextType {
 	total: () => number;
@@ -31,6 +31,7 @@ const CartContext = createContext<CartContextType>({
 });
 export const CartProvider = ({ children }: { children: ReactNode }) => {
 	const { setLoading } = useLoading();
+	const { user } = useAuth();
 	const [userCartItems, SetCartItems] = useState<CartItemSchema[]>([]);
 	const [couponCode, setCouponCode] = useState<{
 		name: string;
@@ -40,8 +41,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		const fetchCart = async () => {
 			setLoading(true);
 			try {
-				const storedUser = await getToken();
-				if (storedUser) {
+				if (user) {
 					const cartProds = await getCartItems();
 					SetCartItems(cartProds);
 				} else {
@@ -56,7 +56,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 			}
 		};
 		fetchCart();
-	}, [setLoading]);
+	}, [setLoading, user]);
 	const total = () => {
 		let total = 0;
 		if (userCartItems?.length > 0) {
