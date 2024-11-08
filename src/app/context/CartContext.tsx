@@ -36,6 +36,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		discount_price: number;
 	} | null>(null);
 	useEffect(() => {
+		
+
 		const fetchCart = async () => {
 			setLoading(true);
 			try {

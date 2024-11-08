@@ -13,6 +13,7 @@ import {
 	createSession,
 	decrypt,
 	deleteSession,
+	encrypt,
 	getRefresh,
 	getToken,
 	refreshAuthToken,
@@ -38,20 +39,33 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-	const { setLoading } = useLoading();
 	const [user, setUser] = useState<UserSchema | null>(null);
+
 	const [isLoading, setIsLoading] = useState(true);
 	const router = useRouter();
 
 	useEffect(() => {
+		const currentStorageUser = localStorage.getItem('user');
+		const parsedUser = currentStorageUser
+			? JSON.parse(currentStorageUser)
+			: null;
+		const isValidUser =
+			parsedUser && Object.keys(parsedUser).length > 0 ? parsedUser : null;
+		setUser(isValidUser);
 		const fetchUser = async () => {
 			try {
 				setIsLoading(true);
-
 				const token = await getToken();
 				if (token) {
 					const { id, email, first_name, last_name } = await decrypt(token);
 					setUser({ id, email, first_name, last_name });
+					const storageUser = JSON.stringify({
+						id,
+						email,
+						first_name,
+						last_name,
+					});
+					localStorage.setItem('user', storageUser);
 				}
 			} catch (error: unknown) {
 				if (error instanceof Error && error.message === 'InvalidToken') {
@@ -64,14 +78,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			}
 		};
 
-		// Ejecutar la función de fetch si no tenemos usuario en localStorage
-		fetchUser();
+		fetchUser(); // Luego intenta actualizar el usuario con el token si es posible
 	}, []);
 
 	const login = async ({ email, password }: LoginUser) => {
-		setLoading(true);
+		setIsLoading(true);
 		try {
 			const newUser = await createSession(email, password);
+			const { refresh, access } = await encrypt(email, password);
+			localStorage.setItem('authToken', access);
+			localStorage.setItem('refreshToken', refresh);
+
 			const {
 				id,
 				email: decryptedEmail,
@@ -89,12 +106,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			}
 			toast.error('Error logging in.');
 		} finally {
-			setLoading(false);
+			setIsLoading(false);
 		}
 	};
 
 	const logout = async () => {
-		setLoading(true);
+		localStorage.removeItem('authToken');
+		localStorage.removeItem('refreshToken');
+		localStorage.removeItem('user');
+		setIsLoading(true);
 		try {
 			await deleteSession();
 			setUser(null);
@@ -104,12 +124,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			console.error('Error logging out:', error);
 			toast.error('Error logging out.');
 		} finally {
-			setLoading(false);
+			setIsLoading(false);
 		}
 	};
 
 	const refreshLogin = async () => {
-		setLoading(true);
+		setIsLoading(true);
 		try {
 			const refreshToken = await getRefresh();
 			if (refreshToken) {
@@ -128,7 +148,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			console.error('Error refreshing session:', error);
 			toast.error('Error refreshing session.');
 		} finally {
-			setLoading(false);
+			setIsLoading(false);
 		}
 	};
 
