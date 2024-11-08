@@ -42,9 +42,10 @@ export async function createReview(
 		if (res.status === 200) {
 			return res.data.reviews;
 		}
-	} catch (error) {
+	} catch (error: unknown) {
 		if (
-			error.response.data.error === 'Review for this course already created'
+			axios.isAxiosError(error) &&
+			error.response?.data?.error === 'Review for this course already created'
 		) {
 			throw new Error('AlreadyHaveReview');
 		}
@@ -68,7 +69,8 @@ export async function editReview(
 		}
 	} catch (error) {
 		if (
-			error.response.data.error === 'Review for this course already created'
+			axios.isAxiosError(error) &&
+			error.response?.data?.error === 'Review for this course already created'
 		) {
 			throw new Error('AlreadyHaveReview');
 		}

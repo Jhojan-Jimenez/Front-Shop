@@ -191,7 +191,7 @@ function CallToActionItem({ item }: { item: CallToAction }) {
 }
 
 interface DesktopActionsProps {
-	user: UserSchema;
+	user: UserSchema | null;
 	logout: () => void;
 }
 
@@ -237,7 +237,7 @@ interface MobileMenuProps {
 	open: boolean;
 	// eslint-disable-next-line no-unused-vars
 	setOpen: (open: boolean) => void;
-	user: UserSchema;
+	user: UserSchema | null;
 	logout: () => void;
 }
 

@@ -80,8 +80,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			} = await decrypt(newUser);
 			setUser({ id, email: decryptedEmail, first_name, last_name });
 			toast.success('Logged in successfully!');
-		} catch (error) {
-			if (error.message == 'Error creating session') {
+		} catch (error: unknown) {
+			if (
+				error instanceof Error &&
+				error.message === 'Error creating session'
+			) {
 				throw new Error('DoesNotExistUser');
 			}
 			toast.error('Error logging in.');

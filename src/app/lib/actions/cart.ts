@@ -87,7 +87,7 @@ export async function updateItemCount(productId: number, count: number) {
 			return true;
 		}
 	} catch (error) {
-		if (error.response.status === 403) {
+		if (axios.isAxiosError(error) && error.response?.status === 403) {
 			throw new Error('Outstock');
 		}
 	}
@@ -136,7 +136,7 @@ export async function SyncCart(cartItems: CartItemSchema[]) {
 			return true;
 		}
 	} catch (error) {
-		if (error.response.status === 500) {
+		if (axios.isAxiosError(error) && error.response?.status === 500) {
 			throw new Error('Your cart is already empty');
 		}
 	}
