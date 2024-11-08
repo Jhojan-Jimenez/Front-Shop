@@ -12,6 +12,7 @@ export const ClearCartButton = () => {
 		);
 		if (confirmed) {
 			try {
+				// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 				user ? await emptyCart() : Unk.emptyCart();
 				SetCartItems([]);
 				toast.success('Todos los elementos del carrito han sido borrados.'); //

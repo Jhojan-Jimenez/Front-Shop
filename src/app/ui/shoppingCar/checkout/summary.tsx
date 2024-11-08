@@ -1,14 +1,12 @@
 'use client';
 import { useCart } from '@/app/context/CartContext';
-import CodeForm from '../CodeForm';
 import { useEffect, useState } from 'react';
-import { PaymentOrderSchema } from '@/app/lib/types';
-import { SubmitHandler } from 'react-hook-form';
+import CodeForm from '../CodeForm';
 export default function Summary({
 	action,
 }: {
 	// eslint-disable-next-line no-unused-vars
-	action: any;
+	action: (e?: React.BaseSyntheticEvent) => Promise<void>;
 }) {
 	const { total, couponCode } = useCart();
 	const [finalTotal, setFinalTotal] = useState(0);

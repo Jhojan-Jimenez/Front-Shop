@@ -56,7 +56,7 @@ export class Unk {
 	}
 	static totalCartPrice() {}
 	static totalCartItems() {}
-	static updateItemQuantity(prodId: number, quantity: number) {}
+	// static updateItemQuantity(prodId: number, quantity: number) {}
 	static removeCartItem(prodId: number) {
 		const cartItems = getCart();
 		const newCartItems = cartItems.filter((id) => id !== prodId.toString());

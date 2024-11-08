@@ -31,12 +31,13 @@ export default function ToggleableHeart({
 			setIsFilled(isInWishlist);
 		};
 		fetchInitialState();
-	}, [wishItemId]);
+	}, [wishItemId, user]);
 
 	const handleClick = async () => {
 		const newState = !isFilled;
 		try {
 			if (newState) {
+				// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 				user
 					? await addWishListItem(wishItemId)
 					: Unk.addWhishListItem(wishItemId);
@@ -44,6 +45,7 @@ export default function ToggleableHeart({
 					position: 'bottom-right',
 				});
 			} else {
+				// eslint-disable-next-line @typescript-eslint/no-unused-expressions
 				user
 					? await removeWishListItem(wishItemId)
 					: Unk.removeWhishListItem(wishItemId);
