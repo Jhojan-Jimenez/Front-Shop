@@ -8,6 +8,8 @@ import {
 	removeWishListItem,
 } from '../lib/actions/wishlist';
 import toast from 'react-hot-toast';
+import { useAuth } from '../context/AuthContext';
+import { Unk } from '../lib/actions/AnonymUser';
 
 interface ToggleableHeartProps {
 	wishItemId: number;
@@ -19,10 +21,13 @@ export default function ToggleableHeart({
 	size = 24,
 }: ToggleableHeartProps) {
 	const [isFilled, setIsFilled] = useState(false);
+	const { user } = useAuth();
 
 	useEffect(() => {
 		const fetchInitialState = async () => {
-			const isInWishlist = await haveWishListItem(wishItemId);
+			const isInWishlist = user
+				? await haveWishListItem(wishItemId)
+				: Unk.haveWhishListItem(wishItemId);
 			setIsFilled(isInWishlist);
 		};
 		fetchInitialState();
@@ -32,12 +37,16 @@ export default function ToggleableHeart({
 		const newState = !isFilled;
 		try {
 			if (newState) {
-				await addWishListItem(wishItemId);
+				user
+					? await addWishListItem(wishItemId)
+					: Unk.addWhishListItem(wishItemId);
 				toast.success('Product successfully added to your wishlist', {
 					position: 'bottom-right',
 				});
 			} else {
-				await removeWishListItem(wishItemId);
+				user
+					? await removeWishListItem(wishItemId)
+					: Unk.removeWhishListItem(wishItemId);
 				toast.success('Product successfully removed from your wishlist', {
 					position: 'bottom-right',
 				});

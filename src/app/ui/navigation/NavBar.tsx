@@ -112,7 +112,7 @@ function DesktopMenu() {
 	return (
 		<Popover.Group className='hidden lg:flex lg:gap-x-12'>
 			<ProductPopover />
-			<NavLink href='wishlist'>Wishlist</NavLink>
+			<NavLink href={'/wishlist'}>Wishlist</NavLink>
 			<NavLink href='#'>Marketplace</NavLink>
 			<NavLink href='#'>Company</NavLink>
 		</Popover.Group>

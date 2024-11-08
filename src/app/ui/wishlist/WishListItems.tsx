@@ -4,10 +4,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import ToggleableHeart from '../Hearth';
 
-export default function WishListItems({ items }: { items: [WishItemSchema] }) {
+export default function WishListItems({ items }: { items: WishItemSchema[] }) {
 	return (
 		<>
 			{items &&
+				items.length > 0 &&
 				items.map((wishItem, idx) => {
 					return <WishItem wishItem={wishItem} key={idx} />;
 				})}

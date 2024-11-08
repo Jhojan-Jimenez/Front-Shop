@@ -40,6 +40,8 @@ export default function Page() {
 				city: selectedCity,
 				coupon_name: couponCode?.name || '',
 			};
+			console.log(body);
+
 			try {
 				await makePayment(body);
 				toast.success('Transaction successful and order was created');
@@ -970,7 +972,7 @@ export default function Page() {
 							</div>
 						</div>
 					</form>
-					<Summary handleSubmit={handleSubmit} paymentSubmit={paymentSubmit} />
+					<Summary action={handleSubmit(paymentSubmit)} />
 				</div>
 			</div>
 		</section>

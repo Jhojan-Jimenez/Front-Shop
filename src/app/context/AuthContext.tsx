@@ -19,7 +19,6 @@ import {
 	refreshAuthToken,
 } from '../lib/actions/sessions';
 import { LoginUser, UserSchema } from '../lib/types';
-import { useLoading } from './LoadingContext';
 
 interface AuthContextType {
 	user: UserSchema | null;

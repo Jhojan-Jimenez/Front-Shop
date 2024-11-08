@@ -11,6 +11,7 @@ import { useLoading } from './LoadingContext';
 import { getCartItems } from '../lib/actions/cart';
 import { getToken } from '../lib/actions/sessions';
 import toast from 'react-hot-toast';
+import { Unk } from '../lib/actions/AnonymUser';
 
 interface CartContextType {
 	total: () => number;
@@ -36,8 +37,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 		discount_price: number;
 	} | null>(null);
 	useEffect(() => {
-		
-
 		const fetchCart = async () => {
 			setLoading(true);
 			try {
@@ -45,7 +44,11 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 				if (storedUser) {
 					const cartProds = await getCartItems();
 					SetCartItems(cartProds);
+				} else {
+					const cartProds = await Unk.getCartItems();
+					SetCartItems(cartProds);
 				}
+				return;
 			} catch {
 				toast.error('Error loading user Cart Items');
 			} finally {

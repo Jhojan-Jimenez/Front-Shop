@@ -7,6 +7,8 @@ import toast from 'react-hot-toast';
 import StarRating from '../StarRating';
 import { useRouter } from 'next/navigation';
 import ToggleableHeart from '../Hearth';
+import { Unk } from '@/app/lib/actions/AnonymUser';
+import { useAuth } from '@/app/context/AuthContext';
 
 export default function ProductDetailView({
 	product,
@@ -14,11 +16,14 @@ export default function ProductDetailView({
 	product: ProductSchema;
 }) {
 	const { setLoading } = useLoading();
+	const { user } = useAuth();
 	const router = useRouter();
 	const AddItemToCart = async () => {
 		setLoading(true);
 		try {
-			const res = await addCartItem(product.id);
+			const res = user
+				? await addCartItem(product.id)
+				: Unk.addCartItem(product.id);
 
 			if (res) {
 				router.push('/shopping');

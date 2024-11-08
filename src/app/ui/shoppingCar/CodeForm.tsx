@@ -16,9 +16,11 @@ export default function CodeForm() {
 
 		try {
 			const res = await existCoupon(inputCouponCode);
-
-			setCouponInfo('Correct name');
-			setCouponCode(res.coupon);
+			if (res) {
+				setCouponInfo('Correct code');
+				setCouponCode(res.coupon);
+				return;
+			}
 		} catch (error) {
 			setCouponCode(null);
 			if ((error as Error).message === 'NotFoundCoupon') {
@@ -52,7 +54,7 @@ export default function CodeForm() {
 				{couponInfo && (
 					<span
 						className={
-							couponInfo === 'Correct name' ? 'text-green-500' : 'text-red-500'
+							couponInfo === 'Correct code' ? 'text-green-500' : 'text-red-500'
 						}
 					>
 						{couponInfo}

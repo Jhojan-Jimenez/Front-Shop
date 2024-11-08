@@ -19,7 +19,6 @@ function createApiClient() {
 export async function getCartItems() {
 	const api = createApiClient();
 
-	
 	try {
 		const res = await api.get('cart-items');
 		if (res.status === 200) {

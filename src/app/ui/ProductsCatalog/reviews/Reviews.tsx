@@ -42,15 +42,17 @@ export default function Reviews({ product }: { product: ProductSchema }) {
 							<p className='text-2xl font-semibold leading-none text-gray-900 '>
 								{product.rating} out of 5
 							</p>
-							<button
-								type='button'
-								data-modal-target='review-modal'
-								data-modal-toggle='review-modal'
-								className='mb-2 me-2 rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-black hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 border-2 '
-								onClick={() => setShowModal(true)}
-							>
-								Write a review
-							</button>
+							{user && (
+								<button
+									type='button'
+									data-modal-target='review-modal'
+									data-modal-toggle='review-modal'
+									className='mb-2 me-2 rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-black hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 border-2 '
+									onClick={() => setShowModal(true)}
+								>
+									Write a review
+								</button>
+							)}
 						</div>
 
 						<div className='mt-6 min-w-0 flex-1 space-y-3 sm:mt-0'>

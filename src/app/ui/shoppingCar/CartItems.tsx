@@ -8,6 +8,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import ToggleableHeart from '../Hearth';
+import { useAuth } from '@/app/context/AuthContext';
+import { Unk } from '@/app/lib/actions/AnonymUser';
 
 export default function CartItems() {
 	const { userCartItems } = useCart();
@@ -23,12 +25,15 @@ export default function CartItems() {
 
 function CartItem({ cartItem }: { cartItem: CartItemSchema }) {
 	const { setLoading } = useLoading();
+	const { user } = useAuth();
 	const { userCartItems, SetCartItems } = useCart();
 	const [amount, setAmount] = useState(cartItem.count);
 	const deleteCartItem = async () => {
 		setLoading(true);
 		try {
-			const res = await removeCartItem(cartItem.product.id);
+			const res = user
+				? await removeCartItem(cartItem.product.id)
+				: Unk.removeCartItem(cartItem.product.id);
 			SetCartItems(res);
 			if (res) {
 				return toast.success('Product successfully removed from your cart');
