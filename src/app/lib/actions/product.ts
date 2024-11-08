@@ -3,9 +3,9 @@ import axios from 'axios';
 import { notFound } from 'next/navigation';
 import 'server-only';
 import { FilterOptions } from '../types';
-
+const BACK_API = process.env.MORTSHOP_API;
 const api = axios.create({
-	baseURL: 'http://127.0.0.1:8000/api/product/',
+	baseURL: `${BACK_API}api/product/`,
 });
 export async function getProducts(params: FilterOptions) {
 	const { categoryId, priceRange, sortBy, order, search } = params;

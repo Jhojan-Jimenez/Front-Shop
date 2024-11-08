@@ -2,12 +2,12 @@
 import axios from 'axios';
 import { cookies } from 'next/headers';
 import { PaymentOrderSchema } from '../types';
-
+const BACK_API = process.env.MORTSHOP_API;
 function createApiClient() {
 	const authToken = cookies().get('authToken')?.value;
 
 	return axios.create({
-		baseURL: 'http://127.0.0.1:8000/api/payment/',
+		baseURL: `${BACK_API}api/payment/`,
 		headers: {
 			'Content-Type': 'application/json',
 			Authorization: `JWT ${authToken}`,

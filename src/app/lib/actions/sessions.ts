@@ -4,9 +4,9 @@ import axios, { AxiosResponse, isAxiosError } from 'axios';
 import { cookies } from 'next/headers';
 import 'server-only';
 import { RegisterUser } from '../types';
-
+const BACK_API = process.env.MORTSHOP_API;
 const api = axios.create({
-	baseURL: 'http://127.0.0.1:8000/',
+	baseURL: `${BACK_API}`,
 	headers: {
 		'Content-Type': 'application/json',
 	},

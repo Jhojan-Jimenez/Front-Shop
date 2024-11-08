@@ -2,12 +2,13 @@
 import axios from 'axios';
 import { cookies } from 'next/headers';
 import { CartItemSchema } from '../types';
+const BACK_API = process.env.MORTSHOP_API;
 
 function createApiClient() {
 	const authToken = cookies().get('authToken')?.value;
 
 	return axios.create({
-		baseURL: 'http://127.0.0.1:8000/api/cart/',
+		baseURL: `${BACK_API}api/cart/`,
 		headers: {
 			'Content-Type': 'application/json',
 			Authorization: `JWT ${authToken}`,

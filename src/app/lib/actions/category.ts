@@ -1,9 +1,9 @@
 'use server';
 import axios from 'axios';
 import 'server-only';
-
+const BACK_API = process.env.MORTSHOP_API;
 const api = axios.create({
-	baseURL: 'http://127.0.0.1:8000/api/category/',
+	baseURL: `${BACK_API}api/category/`,
 });
 export async function getCategories() {
 	const res = await api.get('categories');
