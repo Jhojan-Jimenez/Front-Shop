@@ -89,3 +89,28 @@ export interface ReviewSchema {
 	date_created: string;
 	user: string;
 }
+
+export interface PaymentOrder {
+	status: string;
+	transaction_id: string;
+	amount: number;
+	full_name: string;
+	address_line_1: string;
+	address_line_2: string;
+	city: string;
+	state_province_region: string;
+	postal_zip_code: string;
+	country_region: string;
+	telephone_number: string;
+	shipping_name: string;
+	shipping_time: number;
+	shipping_price: number;
+	coupon_discount: number;
+	date_issued: string;
+	order_items: OrderItemSchema[];
+}
+export interface OrderItemSchema {
+	name: string;
+	count: number;
+	price: number;
+}

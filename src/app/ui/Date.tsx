@@ -19,11 +19,13 @@ export const StylizedDateDisplay: FC<StylizedDateDisplayProps> = ({
 		timeZoneName: 'short',
 	}).format(date);
 
-	const [datePart, timePart] = formattedDate.split(', ');
+	const [datePart, yearPart, timePart] = formattedDate.split(', ');
 
 	return (
 		<div className='inline-flex items-center bg-gray-100 rounded-lg p-2 text-sm font-mono'>
-			<span className='text-blue-600 font-semibold mr-2'>{datePart}</span>
+			<span className='text-blue-600 font-semibold mr-2'>
+				{datePart} {yearPart}
+			</span>
 			<span className='text-gray-600'>@</span>
 			<span className='text-green-600 font-semibold ml-2'>{timePart}</span>
 		</div>

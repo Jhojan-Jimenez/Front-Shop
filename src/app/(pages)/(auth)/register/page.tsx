@@ -1,5 +1,6 @@
 'use client';
 
+import { useLoading } from '@/app/context/LoadingContext';
 import { userSignup } from '@/app/lib/actions/sessions';
 import { FormRegData, userRegSchema } from '@/app/lib/validators';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,7 +19,9 @@ function Page() {
 		resolver: zodResolver(userRegSchema),
 	});
 	const router = useRouter();
+	const { setLoading } = useLoading();
 	const regSubmit = async (data: FormRegData) => {
+		setLoading(true);
 		try {
 			const res = await userSignup(data);
 			if (res) {
@@ -36,6 +39,8 @@ function Page() {
 			toast.success('We send you an email to activate your account');
 		} catch {
 			toast.error('Error en Register Page');
+		} finally {
+			setLoading(false);
 		}
 	};
 

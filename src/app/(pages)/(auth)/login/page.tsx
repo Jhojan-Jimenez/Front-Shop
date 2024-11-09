@@ -1,6 +1,7 @@
 'use client';
 
 import { useAuth } from '@/app/context/AuthContext';
+import { useLoading } from '@/app/context/LoadingContext';
 import { FormLogData, userLogSchema } from '@/app/lib/validators';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
@@ -17,8 +18,10 @@ function Page() {
 		resolver: zodResolver(userLogSchema),
 	});
 	const router = useRouter();
+	const { setLoading } = useLoading();
 	const { login } = useAuth();
 	const logSubmit = async (formData: FormLogData) => {
+		setLoading(true);
 		try {
 			await login(formData);
 			router.push('/products');
@@ -28,6 +31,8 @@ function Page() {
 			} else {
 				toast.error('Server Error');
 			}
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -35,11 +40,11 @@ function Page() {
 		<div className='flex min-h-full flex-col justify-center px-6 py-12 lg:px-8'>
 			<div className='sm:mx-auto sm:w-full sm:max-w-sm'>
 				<Image
-					width={16}
-					height={16}
+					width={400}
+					height={400}
 					className='mx-auto h-10 w-auto'
-					src='https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600'
-					alt='Your Company'
+					src='/images/ShopIcon.jpg'
+					alt='Shop logo'
 				/>
 				<h2 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
 					Sign in to your account

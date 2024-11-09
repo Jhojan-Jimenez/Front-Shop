@@ -56,6 +56,7 @@ const callsToAction: CallToAction[] = [
 export default function Navigation() {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 	const { user, logout } = useAuth();
+
 	return (
 		<div className='bg-white shadow-md shadow-gray-200 w-full'>
 			<nav className='mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8'>

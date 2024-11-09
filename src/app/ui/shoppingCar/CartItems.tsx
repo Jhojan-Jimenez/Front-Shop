@@ -10,15 +10,19 @@ import toast from 'react-hot-toast';
 import ToggleableHeart from '../Hearth';
 import { useAuth } from '@/app/context/AuthContext';
 import { Unk } from '@/app/lib/actions/AnonymUser';
+import BasicLoader from '../BasicLoader';
 
 export default function CartItems() {
 	const { userCartItems } = useCart();
 	return (
 		<>
-			{userCartItems &&
+			{userCartItems ? (
 				userCartItems.map((cartItem, idx) => {
 					return <CartItem cartItem={cartItem} key={idx} />;
-				})}{' '}
+				})
+			) : (
+				<BasicLoader />
+			)}
 		</>
 	);
 }

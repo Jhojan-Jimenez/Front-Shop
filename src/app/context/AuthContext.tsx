@@ -44,27 +44,26 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const router = useRouter();
 
 	useEffect(() => {
+		if (typeof window === 'undefined') return;
+
 		const currentStorageUser = localStorage.getItem('user');
 		const parsedUser = currentStorageUser
 			? JSON.parse(currentStorageUser)
 			: null;
-		const isValidUser =
-			parsedUser && Object.keys(parsedUser).length > 0 ? parsedUser : null;
-		setUser(isValidUser);
+		setUser(
+			parsedUser && Object.keys(parsedUser).length > 0 ? parsedUser : null
+		);
+
 		const fetchUser = async () => {
 			try {
-				setIsLoading(true);
 				const token = await getToken();
 				if (token) {
 					const { id, email, first_name, last_name } = await decrypt(token);
 					setUser({ id, email, first_name, last_name });
-					const storageUser = JSON.stringify({
-						id,
-						email,
-						first_name,
-						last_name,
-					});
-					localStorage.setItem('user', storageUser);
+					localStorage.setItem(
+						'user',
+						JSON.stringify({ id, email, first_name, last_name })
+					);
 				}
 			} catch (error: unknown) {
 				if (error instanceof Error && error.message === 'InvalidToken') {
@@ -72,12 +71,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 				} else {
 					console.error('Error loading user data:', error);
 				}
+				setUser(null); // En caso de error, asegura que `user` sea `null`
 			} finally {
 				setIsLoading(false);
 			}
 		};
 
-		fetchUser(); // Luego intenta actualizar el usuario con el token si es posible
+		fetchUser();
 	}, []);
 
 	const login = async ({ email, password }: LoginUser) => {

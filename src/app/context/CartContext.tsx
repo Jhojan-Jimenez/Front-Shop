@@ -49,7 +49,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 					SetCartItems(cartProds);
 				}
 				return;
-			} catch {
+			} catch (error) {
+				console.log(error);
+
 				toast.error('Error loading user Cart Items');
 			} finally {
 				setLoading(false);
