@@ -12,7 +12,8 @@ import { useLoading } from '@/app/context/LoadingContext';
 
 export default function Reviews({ product }: { product: ProductSchema }) {
 	const [reviews, setReviews] = useState<ReviewSchema[]>([]);
-	const [showModal, setShowModal] = useState(false);
+	const [showModalCreate, setShowModalCreate] = useState(false);
+	const [showModalEdit, setShowModalEdit] = useState(false);
 	const { setLoading } = useLoading();
 	const { user } = useAuth();
 	useEffect(() => {
@@ -50,7 +51,7 @@ export default function Reviews({ product }: { product: ProductSchema }) {
 									data-modal-target='review-modal'
 									data-modal-toggle='review-modal'
 									className='mb-2 me-2 rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-black hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 border-2 '
-									onClick={() => setShowModal(true)}
+									onClick={() => setShowModalCreate(true)}
 								>
 									Write a review
 								</button>
@@ -128,7 +129,10 @@ export default function Reviews({ product }: { product: ProductSchema }) {
 											{user?.first_name === review.user && (
 												<div className='flex items-center gap-4'>
 													<div className='flex space-x-4'>
-														<button className='px-4 py-2 flex items-center justify-center bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-300 ease-in-out'>
+														<button
+															className='px-4 py-2 flex items-center justify-center bg-blue-50 text-blue-600 rounded-md hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-300 ease-in-out'
+															onClick={() => setShowModalEdit(true)}
+														>
 															<Pencil className='w-4 h-4 mr-2' />
 															Edit
 														</button>
@@ -155,11 +159,21 @@ export default function Reviews({ product }: { product: ProductSchema }) {
 						})}
 				</div>
 			</section>
-			{showModal && (
+			{showModalCreate && (
 				<CreateReview
-					setShowModal={setShowModal}
+					setShowModal={setShowModalCreate}
 					setReviews={setReviews}
 					productId={product.id}
+				/>
+			)}
+			{showModalEdit && (
+				<CreateReview
+					setShowModal={setShowModalEdit}
+					setReviews={setReviews}
+					productId={product.id}
+					existingReview={reviews.find(
+						(review) => review.user === user?.first_name
+					)}
 				/>
 			)}
 		</>

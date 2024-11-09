@@ -41,11 +41,14 @@ export class Unk {
 	}
 	static addCartItem(prodId: number) {
 		const cartItems = getCart();
-		cartItems.push(prodId.toString());
-		localStorage.setItem('cartItems', JSON.stringify(cartItems));
 		if (this.haveWhishListItem(prodId)) {
 			this.removeWhishListItem(prodId);
 		}
+		if (this.haveCartItem(prodId)) {
+			throw new Error('Can not add the same product twice');
+		}
+		cartItems.push(prodId.toString());
+		localStorage.setItem('cartItems', JSON.stringify(cartItems));
 		return true;
 	}
 	static haveCartItem(prodId: number) {
