@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import StarRating from '../../StarRating';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PostReviewData, PostReviewForm } from '@/app/lib/validators';
-import { createReview } from '@/app/lib/actions/reviews';
+import { createReview, editReview } from '@/app/lib/actions/reviews';
 import toast from 'react-hot-toast';
 import { ReviewSchema } from '@/app/lib/types';
 import { useLoading } from '@/app/context/LoadingContext';
@@ -12,34 +12,58 @@ export default function CreateReview({
 	setShowModal,
 	productId,
 	setReviews,
+	existingReview,
 }: {
 	setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 	productId: number;
 	setReviews: React.Dispatch<React.SetStateAction<ReviewSchema[]>>;
+	existingReview?: ReviewSchema;
 }) {
-	const [rating, setRating] = useState(5);
+	const [rating, setRating] = useState(
+		existingReview ? existingReview.rating : 5
+	);
 	const { setLoading } = useLoading();
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
+		setValue,
 	} = useForm<PostReviewData>({
 		resolver: zodResolver(PostReviewForm),
+		defaultValues: {
+			comment: existingReview ? existingReview.comment : '',
+		},
 	});
-	const postReview = async (data: { comment: string }) => {
+	useEffect(() => {
+		if (existingReview) {
+			setValue('comment', existingReview.comment);
+		}
+	}, [existingReview, setValue]);
+	const handleReviewSubmission = async (data: { comment: string }) => {
 		setLoading(true);
 		try {
-			const res = await createReview(productId, {
-				rating,
-				comment: data.comment,
-			});
-
+			let res;
+			if (existingReview) {
+				res = await editReview(productId, {
+					rating,
+					comment: data.comment,
+				});
+				toast.success('Review successfully updated');
+			} else {
+				res = await createReview(productId, {
+					rating,
+					comment: data.comment,
+				});
+				toast.success('Review successfully added');
+			}
 			setReviews(res);
 			setShowModal(false);
-			toast.success('Review successfully added');
+			return;
 		} catch (error) {
 			if (error instanceof Error && error.message === 'AlreadyHaveReview') {
 				toast.error('You already have a review for this product');
+			} else {
+				console.error('Error:', error);
 			}
 		} finally {
 			setLoading(false);
@@ -55,7 +79,7 @@ export default function CreateReview({
 				<div className='relative rounded-lg bg-white shadow'>
 					<div className='flex items-center justify-between rounded-t border-b border-gray-200 p-4 md:p-5'>
 						<h3 className='text-lg font-semibold text-gray-900'>
-							Add a review for:
+							{existingReview ? 'Edit your review' : 'Add a review for:'}
 						</h3>
 						<button
 							type='button'
@@ -66,12 +90,15 @@ export default function CreateReview({
 							&#x2715;
 						</button>
 					</div>
-					<form className='p-4 md:p-5' onSubmit={handleSubmit(postReview)}>
+					<form
+						className='p-4 md:p-5'
+						onSubmit={handleSubmit(handleReviewSubmission)}
+					>
 						<div className='mb-4 grid grid-cols-2 gap-4'>
 							<div className='col-span-2'>
 								<div className='flex items-center'>
 									<StarRating
-										rating={5}
+										rating={existingReview ? existingReview.rating : 5}
 										isInteractive={true}
 										onRatingChange={(newRating) => setRating(newRating)}
 									/>
@@ -112,7 +139,7 @@ export default function CreateReview({
 								data-modal-toggle='review-modal'
 								className='me-2 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:outline-none focus:ring-4 focus:ring-gray-100 '
 							>
-								Add review
+								{existingReview ? 'Update review' : 'Add review'}
 							</button>
 						</div>
 					</form>
