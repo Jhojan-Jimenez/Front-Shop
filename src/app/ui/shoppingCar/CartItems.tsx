@@ -1,6 +1,8 @@
 'use client';
+import { useAuth } from '@/app/context/AuthContext';
 import { useCart } from '@/app/context/CartContext';
 import { useLoading } from '@/app/context/LoadingContext';
+import { Unk } from '@/app/lib/actions/AnonymUser';
 import { removeCartItem, updateItemCount } from '@/app/lib/actions/cart';
 import { CartItemSchema } from '@/app/lib/types';
 import Image from 'next/image';
@@ -8,17 +10,20 @@ import Link from 'next/link';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import ToggleableHeart from '../Hearth';
-import { useAuth } from '@/app/context/AuthContext';
-import { Unk } from '@/app/lib/actions/AnonymUser';
 
 export default function CartItems() {
 	const { userCartItems } = useCart();
 	return (
 		<>
-			{userCartItems &&
+			{userCartItems.length > 0 ? (
 				userCartItems.map((cartItem, idx) => {
 					return <CartItem cartItem={cartItem} key={idx} />;
-				})}{' '}
+				})
+			) : (
+				<p className='text-gray-700 font-semibold text-lg'>
+					There are not items in your Cart
+				</p>
+			)}
 		</>
 	);
 }

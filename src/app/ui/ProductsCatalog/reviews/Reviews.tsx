@@ -8,10 +8,12 @@ import { getReviews, removeReview } from '@/app/lib/actions/reviews';
 import CreateReview from './CreateReview';
 import toast from 'react-hot-toast';
 import { useAuth } from '@/app/context/AuthContext';
+import { useLoading } from '@/app/context/LoadingContext';
 
 export default function Reviews({ product }: { product: ProductSchema }) {
 	const [reviews, setReviews] = useState<ReviewSchema[]>([]);
 	const [showModal, setShowModal] = useState(false);
+	const { setLoading } = useLoading();
 	const { user } = useAuth();
 	useEffect(() => {
 		const fetchReviews = async () => {
@@ -133,7 +135,10 @@ export default function Reviews({ product }: { product: ProductSchema }) {
 														<button
 															className='px-4 py-2 flex items-center justify-center bg-red-50 text-red-600 rounded-md hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-300 ease-in-out'
 															onClick={async () => {
-																await removeReview(product.id);
+																setLoading(true);
+																const res = await removeReview(product.id);
+																setReviews(res);
+																setLoading(false);
 																toast.success('Review deleted successfully');
 															}}
 														>
@@ -151,7 +156,11 @@ export default function Reviews({ product }: { product: ProductSchema }) {
 				</div>
 			</section>
 			{showModal && (
-				<CreateReview setShowModal={setShowModal} productId={product.id} />
+				<CreateReview
+					setShowModal={setShowModal}
+					setReviews={setReviews}
+					productId={product.id}
+				/>
 			)}
 		</>
 	);

@@ -49,13 +49,14 @@ const products: Product[] = [
 ];
 
 const callsToAction: CallToAction[] = [
-	{ name: 'Watch demo', href: '#', icon: 'dasd' },
-	{ name: 'Contact sales', href: '#', icon: 'dsads' },
+	{ name: 'Watch demo', href: '#', icon: ' ' },
+	{ name: 'Contact sales', href: '#', icon: ' ' },
 ];
 
 export default function Navigation() {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 	const { user, logout } = useAuth();
+
 	return (
 		<div className='bg-white shadow-md shadow-gray-200 w-full'>
 			<nav className='mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8'>

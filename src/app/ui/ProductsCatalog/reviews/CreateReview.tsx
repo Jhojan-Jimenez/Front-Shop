@@ -5,15 +5,20 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { PostReviewData, PostReviewForm } from '@/app/lib/validators';
 import { createReview } from '@/app/lib/actions/reviews';
 import toast from 'react-hot-toast';
+import { ReviewSchema } from '@/app/lib/types';
+import { useLoading } from '@/app/context/LoadingContext';
 
 export default function CreateReview({
 	setShowModal,
 	productId,
+	setReviews,
 }: {
 	setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
 	productId: number;
+	setReviews: React.Dispatch<React.SetStateAction<ReviewSchema[]>>;
 }) {
 	const [rating, setRating] = useState(5);
+	const { setLoading } = useLoading();
 	const {
 		register,
 		handleSubmit,
@@ -22,19 +27,29 @@ export default function CreateReview({
 		resolver: zodResolver(PostReviewForm),
 	});
 	const postReview = async (data: { comment: string }) => {
+		setLoading(true);
 		try {
-			await createReview(productId, { rating, comment: data.comment });
+			const res = await createReview(productId, {
+				rating,
+				comment: data.comment,
+			});
+
+			setReviews(res);
+			setShowModal(false);
+			toast.success('Review successfully added');
 		} catch (error) {
 			if (error instanceof Error && error.message === 'AlreadyHaveReview') {
 				toast.error('You already have a review for this product');
 			}
+		} finally {
+			setLoading(false);
 		}
 	};
 	return (
 		<div
 			id='review-modal'
 			tabIndex={-1}
-			className='fixed left-0 right-0 top-0 z-50 flex h-full w-full items-center justify-center bg-black bg-opacity-50'
+			className='fixed left-0 right-0 top-0 z-20 flex h-full w-full items-center justify-center bg-black bg-opacity-50'
 		>
 			<div className='relative max-w-2xl w-full p-4'>
 				<div className='relative rounded-lg bg-white shadow'>

@@ -1,5 +1,6 @@
 'use client';
 import { useCart } from '@/app/context/CartContext';
+import { useLoading } from '@/app/context/LoadingContext';
 import { makePayment } from '@/app/lib/actions/payment';
 import { PaymentOrderSchema } from '@/app/lib/types';
 import { PaymentSchema } from '@/app/lib/validators';
@@ -16,7 +17,7 @@ export default function Page() {
 	const countryRef = useRef<HTMLSelectElement>(null);
 	const [selectedShipping, setSelectedShipping] = useState<number | null>(1);
 	const router = useRouter();
-	const { couponCode } = useCart();
+	const { couponCode, SetCartItems, setCouponCode } = useCart();
 	const handleSelectShipping = (id: number) => {
 		setSelectedShipping(id);
 	};
@@ -27,34 +28,43 @@ export default function Page() {
 	} = useForm<PaymentOrderSchema>({
 		resolver: zodResolver(PaymentSchema),
 	});
+	const { setLoading } = useLoading();
 
 	const paymentSubmit = async (formData: PaymentOrderSchema) => {
-		if (cityRef.current && countryRef.current) {
-			const selectedCity = cityRef.current.value;
-			const selectedCountry = countryRef.current.value;
+		setLoading(true);
+		try {
+			if (cityRef.current && countryRef.current) {
+				const selectedCity = cityRef.current.value;
+				const selectedCountry = countryRef.current.value;
 
-			const body = {
-				...formData,
-				shipping_id: Number(selectedShipping),
-				country_region: selectedCountry,
-				city: selectedCity,
-				coupon_name: couponCode?.name || '',
-			};
-			console.log(body);
+				const body = {
+					...formData,
+					shipping_id: Number(selectedShipping),
+					country_region: selectedCountry,
+					city: selectedCity,
+					coupon_name: couponCode?.name || '',
+				};
 
-			try {
-				await makePayment(body);
-				toast.success('Transaction successful and order was created');
-				router.push('/shopping/orders');
-			} catch (error: unknown) {
-				if (error instanceof Error && error.message === 'NotCartItems') {
-					toast.error('Need to have items in cart');
-				} else {
-					toast.error('Server error');
+				try {
+					await makePayment(body);
+					SetCartItems([]);
+					setCouponCode(null);
+					toast.success('Transaction successful and order was created');
+					router.push('/shopping/orders');
+				} catch (error: unknown) {
+					if (error instanceof Error && error.message === 'NotCartItems') {
+						toast.error('Need to have items in cart');
+					} else {
+						toast.error('Server error');
+					}
 				}
+			} else {
+				console.error('City or Country selection is missing.');
 			}
-		} else {
-			console.error('City or Country selection is missing.');
+		} catch {
+			toast.error('Server Error');
+		} finally {
+			setLoading(false);
 		}
 	};
 	return (

@@ -34,16 +34,16 @@ export default function RootLayout({
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
 				<div className='min-h-screen flex flex-col justify-between'>
-					<LoadingProvider>
-						<AuthProvider>
+					<AuthProvider>
+						<LoadingProvider>
 							<header className='sticky top-0 z-30'>
 								<NavBar />
 							</header>
 							<Toaster />
 							<main className='min-h-screen'>{children}</main>
 							<Footer />
-						</AuthProvider>
-					</LoadingProvider>
+						</LoadingProvider>
+					</AuthProvider>
 				</div>
 			</body>
 		</html>

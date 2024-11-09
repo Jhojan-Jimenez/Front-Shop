@@ -1,34 +1,13 @@
 import { getOrderById } from '@/app/lib/actions/orders';
-import { OrderSchema } from '@/app/lib/types';
+import { OrderItemSchema, OrderSchema, PaymentOrder } from '@/app/lib/types';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
-interface OrderItemSchema {
-	name: string;
-	count: number;
-	price: number;
-}
-interface Order {
-	status: string;
-	transaction_id: string;
-	amount: number;
-	full_name: string;
-	address_line_1: string;
-	address_line_2: string;
-	city: string;
-	state_province_region: string;
-	postal_zip_code: string;
-	country_region: string;
-	telephone_number: string;
-	shipping_name: string;
-	shipping_time: number;
-	shipping_price: number;
-	coupon_discount: number;
-	date_issued: string;
-	order_items: OrderItemSchema[];
-}
+import BillingInfo from './BillingInfo';
+import BasicLoader from '../../BasicLoader';
+
 export default function OrderItems({ order }: { order: OrderSchema }) {
-	const [orderItems, setOrderItems] = useState<Order | null>(null);
+	const [orderItems, setOrderItems] = useState<PaymentOrder | null>(null);
 	useEffect(() => {
 		const fetchOrders = async () => {
 			const res = await getOrderById(order.transaction_id);
@@ -44,23 +23,12 @@ export default function OrderItems({ order }: { order: OrderSchema }) {
 						<h2 className='text-xl font-semibold text-gray-900  sm:text-2xl'>
 							Order summary
 						</h2>
-
-						<div className='mt-6 space-y-4 border-b border-t border-gray-200 py-8  sm:mt-8'>
-							<h4 className='text-lg font-semibold text-gray-900 '>
-								Billing & Delivery information
-							</h4>
-
-							<dl>
-								<dd className='mt-1 text-base font-normal text-gray-500 '>
-									User: {orderItems?.full_name} - Contact Telephone:{' '}
-									{orderItems?.telephone_number}, City: {orderItems?.city},
-									State: {orderItems?.state_province_region}, Country:{' '}
-									{orderItems?.country_region}, Postal Code:{' '}
-									{orderItems?.postal_zip_code}, Address 1
-									{orderItems?.address_line_1}, Address 2:
-									{orderItems?.address_line_2}
-								</dd>
-							</dl>
+						<div className='mt-2 space-y-4 border-b border-t border-gray-200 py-8  sm:mt-8'>
+							{orderItems ? (
+								<BillingInfo orderItems={orderItems} />
+							) : (
+								<BasicLoader />
+							)}
 						</div>
 
 						<div className='mt-6 sm:mt-8'>
@@ -85,9 +53,7 @@ export default function OrderItems({ order }: { order: OrderSchema }) {
 																		height={400}
 																	/>
 																</a>
-																<a href='#' className='hover:underline'>
-																	{item.name}
-																</a>
+																<p className='hover:underline'>{item.name}</p>
 															</div>
 														</td>
 

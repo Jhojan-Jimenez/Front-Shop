@@ -1,10 +1,9 @@
-const BACK_API = process.env.NEXT_PUBLIC_MORTSHOP_API;
+import { getProductById } from './product';
 export class Unk {
 	static async getWishList() {
 		const WishListIds = getWishList();
 		const promises = WishListIds.map(async (id, index) => {
-			const response = await fetch(`${BACK_API}api/product/${id}`);
-			const { product } = await response.json();
+			const { product } = await getProductById(parseInt(id));
 			return { id: index, product: { ...product } };
 		});
 		const productDetails = await Promise.all(promises);
@@ -32,10 +31,9 @@ export class Unk {
 		return WishList.includes(prodId.toString());
 	}
 	static async getCartItems() {
-		const cartItems = getCart();
-		const promises = cartItems.map(async (id, index) => {
-			const response = await fetch(`${BACK_API}api/product/${id}`);
-			const { product } = await response.json();
+		const cartItemsIds = getCart();
+		const promises = cartItemsIds.map(async (id, index) => {
+			const product = await getProductById(parseInt(id));
 			return { id: index, product: { ...product }, count: 1 };
 		});
 		const productDetails = await Promise.all(promises);

@@ -44,10 +44,12 @@ export async function createReview(
 	try {
 		const res = await api.post(`create-review/${productId}`, body);
 
-		if (res.status === 200) {
+		if (res.status === 201) {
 			return res.data.reviews;
 		}
 	} catch (error: unknown) {
+		console.log(error);
+
 		if (
 			axios.isAxiosError(error) &&
 			error.response?.data?.error === 'Review for this course already created'
