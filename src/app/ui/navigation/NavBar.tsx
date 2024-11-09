@@ -49,8 +49,8 @@ const products: Product[] = [
 ];
 
 const callsToAction: CallToAction[] = [
-	{ name: 'Watch demo', href: '#', icon: 'dasd' },
-	{ name: 'Contact sales', href: '#', icon: 'dsads' },
+	{ name: 'Watch demo', href: '#', icon: ' ' },
+	{ name: 'Contact sales', href: '#', icon: ' ' },
 ];
 
 export default function Navigation() {

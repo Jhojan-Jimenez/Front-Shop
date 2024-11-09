@@ -17,7 +17,7 @@ export default function Page() {
 	const countryRef = useRef<HTMLSelectElement>(null);
 	const [selectedShipping, setSelectedShipping] = useState<number | null>(1);
 	const router = useRouter();
-	const { couponCode, SetCartItems } = useCart();
+	const { couponCode, SetCartItems, setCouponCode } = useCart();
 	const handleSelectShipping = (id: number) => {
 		setSelectedShipping(id);
 	};
@@ -48,6 +48,7 @@ export default function Page() {
 				try {
 					await makePayment(body);
 					SetCartItems([]);
+					setCouponCode(null);
 					toast.success('Transaction successful and order was created');
 					router.push('/shopping/orders');
 				} catch (error: unknown) {
