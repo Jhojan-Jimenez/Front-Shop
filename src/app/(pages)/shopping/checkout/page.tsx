@@ -49,7 +49,11 @@ export default function Page() {
 					await makePayment(body);
 					SetCartItems([]);
 					setCouponCode(null);
-					toast.success('Transaction successful and order was created');
+
+					toast.success(
+						'Transaction successful and order was created, check you email to see the order details',
+						{ duration: 5000 }
+					);
 					router.push('/shopping/orders');
 				} catch (error: unknown) {
 					if (error instanceof Error && error.message === 'NotCartItems') {

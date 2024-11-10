@@ -64,6 +64,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 						'user',
 						JSON.stringify({ id, email, first_name, last_name })
 					);
+				} else {
+					setUser(null);
+					localStorage.removeItem('user');
 				}
 			} catch (error: unknown) {
 				if (error instanceof Error && error.message === 'InvalidToken') {

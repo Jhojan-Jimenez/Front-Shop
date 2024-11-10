@@ -1,10 +1,9 @@
 import { getOrderById } from '@/app/lib/actions/orders';
 import { OrderItemSchema, OrderSchema, PaymentOrder } from '@/app/lib/types';
-import Image from 'next/image';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
-import BillingInfo from './BillingInfo';
+import { useEffect, useState } from 'react';
 import BasicLoader from '../../BasicLoader';
+import BillingInfo from './BillingInfo';
 
 export default function OrderItems({ order }: { order: OrderSchema }) {
 	const [orderItems, setOrderItems] = useState<PaymentOrder | null>(null);
@@ -41,18 +40,6 @@ export default function OrderItems({ order }: { order: OrderSchema }) {
 													<tr key={index}>
 														<td className='whitespace-nowrap py-4 md:w-[384px]'>
 															<div className='flex items-center gap-4'>
-																<a
-																	href='#'
-																	className='flex items-center aspect-square w-10 h-10 shrink-0'
-																>
-																	<Image
-																		className='h-auto w-full max-h-full '
-																		src='https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg'
-																		alt='imac image'
-																		width={400}
-																		height={400}
-																	/>
-																</a>
 																<p className='hover:underline'>{item.name}</p>
 															</div>
 														</td>
