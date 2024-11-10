@@ -24,6 +24,9 @@ function useCategoryFilter() {
 	const createQueryString = useCallback(
 		(name: string, value: string) => {
 			const params = new URLSearchParams(searchParams);
+			if (params.has('page')) {
+				params.delete('page');
+			}
 			if (value) {
 				params.set(name, value);
 			} else {

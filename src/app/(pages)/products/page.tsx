@@ -1,6 +1,7 @@
 import { getCategories } from '@/app/lib/actions/category';
 import { getProducts } from '@/app/lib/actions/product';
 import { FilterOptions } from '@/app/lib/types';
+import BasicLoader from '@/app/ui/BasicLoader';
 import Loader from '@/app/ui/modals/Loader';
 import Index from '@/app/ui/ProductsCatalog/Filters/Index';
 import ProductCatalog from '@/app/ui/ProductsCatalog/ProductCatalog';
@@ -20,10 +21,12 @@ export default async function page({
 				<Suspense fallback={<Loader />}>
 					<ProductCatalog categories={categories}>
 						<div className='mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4'>
-							<ProductList products={products} />
+							<Suspense fallback={<BasicLoader />}>
+								<ProductList products={products} />
+							</Suspense>
 						</div>
 						<div className='w-full text-center'>
-							<Index />
+							{<Index totalItems={(products && products.length) || 0} />}
 						</div>
 					</ProductCatalog>
 				</Suspense>

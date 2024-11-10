@@ -8,10 +8,13 @@ export default async function ProductList({
 }) {
 	return (
 		<>
-			{products &&
+			{products ? (
 				products.map((product: ProductSchema) => {
 					return <ProductListComponent key={product.id} product={product} />;
-				})}
+				})
+			) : (
+				<p>No products found</p>
+			)}
 		</>
 	);
 }
