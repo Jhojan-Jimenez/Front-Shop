@@ -19,33 +19,32 @@ export default function WishListItems({ items }: { items: WishItemSchema[] }) {
 function WishItem({ wishItem }: { wishItem: WishItemSchema }) {
 	return (
 		<div className='rounded-lg border border-gray-200 bg-white p-4 shadow-sm  md:p-6'>
-			<div className='space-y-4 md:flex md:items-center md:justify-between md:gap-6 md:space-y-0'>
-				<a href='#' className='shrink-0 md:order-1'>
+			<div className='space-y-4  xl:flex xl:items-center xl:justify-between xl:space-y-0'>
+				<Link href={`products/${wishItem.product.id}`} className='w-1/2'>
 					<Image
 						width={400}
 						height={400}
-						className='max-h-28 max-w-28'
-						src='https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg'
-						alt='imac image'
+						className='rounded-lg shadow-md object-cover h-auto hover:opacity-75 transition duration-300 ease-in-out w-full'
+						src={wishItem.product.photo}
+						alt={wishItem.product.name + ' photo'}
 					/>
-				</a>
+				</Link>
 
-				<div className='w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md'>
+				<div className='w-full min-w-0 flex-1 space-y-4 md:order-2 md:max-w-md pl-4'>
 					<Link
 						href={`products/${wishItem.product.id}`}
-						className='text-base font-medium text-gray-900 hover:underline '
+						className='text-lg font-semibold text-gray-900 hover:text-blue-600 hover:underline transition duration-300 ease-in-out'
 					>
 						{wishItem.product.name}
 					</Link>
-					<p className='text-sm font-normal text-gray-700 '>
+					<p className='text-sm font-normal text-gray-700 mt-1'>
 						{wishItem.product.description.split('.')[0]}
 					</p>
-					<p className='text-sm font-normal text-gray-700 '>
-						${wishItem.product.price}
-					</p>
-
-					<div className='flex items-center gap-4 justify-end'>
-						<ToggleableHeart size={32} wishItemId={wishItem.product.id} />
+					<div className='text-lg font-semibold text-gray-900 mt-2'>
+						<div className='flex justify-between items-center'>
+							${wishItem.product.price}
+							<ToggleableHeart size={32} wishItemId={wishItem.id} />
+						</div>
 					</div>
 				</div>
 			</div>

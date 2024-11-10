@@ -1,5 +1,6 @@
 import { getProducts } from '@/app/lib/actions/product';
 import { ProductSchema } from '@/app/lib/types';
+import Image from 'next/image';
 import Link from 'next/link';
 export default async function BestSeller() {
 	const products: ProductSchema[] = await getProducts({
@@ -25,12 +26,13 @@ export default async function BestSeller() {
 					{products.map((product) => (
 						<div key={product.id} className='group relative'>
 							<div className='w-full h-96 rounded-lg overflow-hidden group-hover:opacity-75 sm:h-auto sm:aspect-w-2 sm:aspect-h-3'>
-								<div className='w-full h-full object-center object-cover bg-red-500' />
-								{/* <img
-									src={product.imageSrc}
-									alt={product.imageAlt}
+								<Image
+									width={400}
+									height={400}
+									src={product.photo}
+									alt={product.name + ' photo'}
 									className='w-full h-full object-center object-cover'
-								/> */}
+								/>
 							</div>
 							<h3 className='mt-4 text-base font-semibold text-gray-900'>
 								<Link href={`/products/${product.id}`}>
@@ -38,7 +40,7 @@ export default async function BestSeller() {
 									{product.name}
 								</Link>
 							</h3>
-							<p className='mt-1 text-sm text-gray-500'>${product.price}</p>
+							<p className='mt-1 text-lg text-gray-700'>${product.price}</p>
 						</div>
 					))}
 				</div>
