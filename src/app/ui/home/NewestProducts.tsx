@@ -1,5 +1,6 @@
 import { getProducts } from '@/app/lib/actions/product';
 import { ProductSchema } from '@/app/lib/types';
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default async function NewestProducts() {
@@ -17,12 +18,13 @@ export default async function NewestProducts() {
 					{products.map((product) => (
 						<div key={product.id} className='group relative'>
 							<div className='w-full min-h-80 bg-gray-200 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:h-80 lg:aspect-none'>
-								{/* <img
-									src={product.imageSrc}
-									alt={product.imageAlt}
+								<Image
+									width={400}
+									height={400}
+									src={product.photo}
+									alt={product.name + ' photo'}
 									className='w-full h-full object-center object-cover lg:w-full lg:h-full z-0'
-								/> */}
-								{/* <img className='w-full h-full object-center object-cover lg:w-full lg:h-full z-0 bg-green-300' /> */}
+								/>
 							</div>
 							<div className='mt-4 flex justify-between'>
 								<div>

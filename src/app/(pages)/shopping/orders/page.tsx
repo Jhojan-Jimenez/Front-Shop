@@ -20,7 +20,7 @@ export default function Page() {
 	}, []);
 	return (
 		<>
-			{orders.length < 0 ? (
+			{orders.length < 1 ? (
 				<div className='border-y-4  border-gray-200 px-6 py-6 bg-white flex items-center  justify-center  text-black hover:bg-slate-100 md:px-12 font-medium text-lg '>
 					You don't have any orders yet.
 				</div>

@@ -45,9 +45,9 @@ export default function ProductDetailView({
 		<div className='container px-5 py-24 mx-auto'>
 			<div className='lg:w-4/5 mx-auto flex flex-wrap'>
 				<Image
-					alt='ecommerce'
+					alt={product.name}
 					className='lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded'
-					src='https://dummyimage.com/400x400'
+					src={product.photo}
 					width={400}
 					height={400}
 				/>
@@ -135,17 +135,20 @@ export default function ProductDetailView({
 							</div>
 						</div>
 					</div>
-					<div className='flex'>
+					<div className='flex justify-between'>
 						<span className='title-font font-medium text-2xl text-gray-900'>
 							${product.price}
 						</span>
-						<button
-							className='flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded'
-							onClick={AddItemToCart}
-						>
-							Add to car
-						</button>
-						<ToggleableHeart size={32} wishItemId={product.id} />
+						<div className='flex'>
+							<ToggleableHeart size={32} wishItemId={product.id} />
+
+							<button
+								className=' text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded'
+								onClick={AddItemToCart}
+							>
+								Add to car
+							</button>
+						</div>
 					</div>
 				</div>
 			</div>

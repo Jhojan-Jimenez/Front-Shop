@@ -8,7 +8,7 @@ export default function RecommendedProd() {
 					width={400}
 					height={400}
 					className='mx-auto h-44 w-44 '
-					src='https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg'
+					src={'https://i.imgur.com/OQC8C35.jpeg'}
 					alt='imac image'
 				/>
 			</a>

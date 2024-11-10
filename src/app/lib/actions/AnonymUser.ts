@@ -3,7 +3,7 @@ export class Unk {
 	static async getWishList() {
 		const WishListIds = getWishList();
 		const promises = WishListIds.map(async (id, index) => {
-			const { product } = await getProductById(parseInt(id));
+			const product = await getProductById(parseInt(id));
 			return { id: index, product: { ...product } };
 		});
 		const productDetails = await Promise.all(promises);

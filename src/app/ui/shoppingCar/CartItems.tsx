@@ -76,9 +76,9 @@ function CartItem({ cartItem }: { cartItem: CartItemSchema }) {
 					<Image
 						width={400}
 						height={400}
-						className='h-20 w-20 '
-						src='https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg'
-						alt='imac image'
+						className='rounded-lg shadow-md object-cover h-auto hover:opacity-75 transition duration-300 ease-in-out max-w-32'
+						src={cartItem.product.photo}
+						alt={cartItem.product.name + ' photo'}
 					/>
 				</Link>
 
@@ -154,12 +154,14 @@ function CartItem({ cartItem }: { cartItem: CartItemSchema }) {
 						{cartItem.product.description.split('.')[0]}
 					</p>
 
-					<div className='flex items-center gap-4'>
-						<ToggleableHeart size={32} wishItemId={cartItem.product.id} />
+					<div className='flex items-center justify-between gap-4'>
+						<div onClick={deleteCartItem}>
+							<ToggleableHeart size={32} wishItemId={cartItem.product.id} />
+						</div>
 
 						<button
 							type='button'
-							className='inline-flex items-center text-sm font-medium text-red-600 hover:underline pl-10'
+							className='inline-flex items-center text-lg font-medium text-red-600 hover:underline pl-10'
 							onClick={deleteCartItem}
 						>
 							<svg
