@@ -6,7 +6,6 @@ import {
 	Bars3Icon,
 	ChartPieIcon,
 	ChevronDownIcon,
-	FingerPrintIcon,
 	XMarkIcon,
 } from '@heroicons/react/24/outline';
 import Image from 'next/image';
@@ -21,11 +20,11 @@ interface Product {
 	icon: React.ElementType;
 }
 
-interface CallToAction {
-	name: string;
-	href: string;
-	icon: string;
-}
+// interface CallToAction {
+// 	name: string;
+// 	href: string;
+// 	icon: string;
+// }
 
 const products: Product[] = [
 	{
@@ -34,24 +33,12 @@ const products: Product[] = [
 		href: '/products',
 		icon: ChartPieIcon,
 	},
-	{
-		name: 'Campo 1',
-		description: 'Descripcion 1',
-		href: '#',
-		icon: ChartPieIcon,
-	},
-	{
-		name: 'Campo 2',
-		description: 'Descripcion 1',
-		href: '#',
-		icon: FingerPrintIcon,
-	},
 ];
 
-const callsToAction: CallToAction[] = [
-	{ name: 'Watch demo', href: '#', icon: ' ' },
-	{ name: 'Contact sales', href: '#', icon: ' ' },
-];
+// const callsToAction: CallToAction[] = [
+// 	{ name: 'Watch demo', href: '#', icon: ' ' },
+// 	{ name: 'Contact sales', href: '#', icon: ' ' },
+// ];
 
 export default function Navigation() {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
@@ -114,8 +101,8 @@ function DesktopMenu() {
 		<Popover.Group className='hidden lg:flex lg:gap-x-12'>
 			<ProductPopover />
 			<NavLink href={'/wishlist'}>Wishlist</NavLink>
-			<NavLink href='#'>Marketplace</NavLink>
-			<NavLink href='#'>Company</NavLink>
+			{/* <NavLink href='#'>Marketplace</NavLink>
+			<NavLink href='#'>Company</NavLink> */}
 		</Popover.Group>
 	);
 }
@@ -145,11 +132,11 @@ function ProductPopover() {
 							<ProductItem key={item.name} item={item} />
 						))}
 					</div>
-					<div className='grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50'>
+					{/* <div className='grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-50'>
 						{callsToAction.map((item) => (
 							<CallToActionItem key={item.name} item={item} />
 						))}
-					</div>
+					</div> */}
 				</Popover.Panel>
 			</Transition>
 		</Popover>
@@ -176,19 +163,19 @@ function ProductItem({ item }: { item: Product }) {
 	);
 }
 
-function CallToActionItem({ item }: { item: CallToAction }) {
-	return (
-		<Link
-			href={item.href}
-			className='flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100'
-		>
-			<span className='h-5 w-5 flex-none text-gray-400' aria-hidden='true'>
-				{item.icon}
-			</span>
-			{item.name}
-		</Link>
-	);
-}
+// function CallToActionItem({ item }: { item: CallToAction }) {
+// 	return (
+// 		<Link
+// 			href={item.href}
+// 			className='flex items-center justify-center gap-x-2.5 p-3 text-sm font-semibold leading-6 text-gray-900 hover:bg-gray-100'
+// 		>
+// 			<span className='h-5 w-5 flex-none text-gray-400' aria-hidden='true'>
+// 				{item.icon}
+// 			</span>
+// 			{item.name}
+// 		</Link>
+// 	);
+// }
 
 interface DesktopActionsProps {
 	user: UserSchema | null;
@@ -272,8 +259,6 @@ function MobileMenu({ open, setOpen, user, logout }: MobileMenuProps) {
 						<div className='space-y-2 py-6'>
 							<MobileProductDisclosure />
 							<MobileNavLink href='wishlist'>Wishlist</MobileNavLink>
-							<MobileNavLink href='#'>Marketplace</MobileNavLink>
-							<MobileNavLink href='#'>Company</MobileNavLink>
 						</div>
 						<div className='py-6'>
 							{user ? (
@@ -302,6 +287,12 @@ function MobileMenu({ open, setOpen, user, logout }: MobileMenuProps) {
 								</>
 							)}
 						</div>
+						<Link
+							href='/shopping'
+							className='-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50'
+						>
+							ShoppingCart
+						</Link>
 					</div>
 				</div>
 			</Dialog.Panel>
@@ -322,7 +313,7 @@ function MobileProductDisclosure() {
 						/>
 					</Disclosure.Button>
 					<Disclosure.Panel className='mt-2 space-y-2'>
-						{[...products, ...callsToAction].map((item) => (
+						{[...products].map((item) => (
 							<Disclosure.Button
 								key={item.name}
 								as='a'

@@ -5,17 +5,21 @@ import { getWishList } from '@/app/lib/actions/wishlist';
 import { WishItemSchema } from '@/app/lib/types';
 import WishListItems from '@/app/ui/wishlist/WishListItems';
 import { useEffect, useState } from 'react';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 export default function Page() {
 	const [items, setItems] = useState<WishItemSchema[]>([]);
+	const [loading, setLoading] = useState(true);
 	const { user } = useAuth();
 
 	useEffect(() => {
 		async function fetchWishlist() {
+			setLoading(true);
 			const wishlistItems = user
 				? await getWishList()
 				: await Unk.getWishList();
 			setItems(wishlistItems);
+			setLoading(false);
 		}
 		fetchWishlist();
 	}, [user]);
@@ -29,15 +33,22 @@ export default function Page() {
 			</div>
 			<div className='mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8'>
 				<div className='mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl'>
-					<div className='space-y-6 grid grid-cols-2'>
-						{items && items.length > 0 ? (
-							<WishListItems items={items} />
-						) : (
-							<p className='text-gray-700 font-semibold text-lg'>
-								No items in your wishlist
-							</p>
-						)}
-					</div>
+					{loading ? (
+						<div className='flex justify-center h-full items-center'>
+							{' '}
+							<BeatLoader />{' '}
+						</div>
+					) : (
+						<div className='space-y-6 grid grid-cols-2'>
+							{items && items.length > 0 ? (
+								<WishListItems items={items} />
+							) : (
+								<p className='text-gray-700 font-semibold text-lg'>
+									No items in your wishlist
+								</p>
+							)}
+						</div>
+					)}
 				</div>
 			</div>
 		</div>

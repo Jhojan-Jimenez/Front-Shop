@@ -118,15 +118,15 @@ function Page() {
 				</form>
 				<p className='mt-6 text-sm text-center text-gray-400'>
 					Don&#x27;t have an account yet?{' '}
-					<a
-						href='http://localhost:3000/login'
+					<Link
+						href='/register'
 						className='text-blue-500 focus:outline-none focus:underline hover:underline'
 					>
 						Sign up
-					</a>
+					</Link>
 					.
 				</p>
-				<div className='sm:mx-auto sm:w-full sm:max-w-sm mt-6 text-center text-md text-gray-700'>
+				{/* <div className='sm:mx-auto sm:w-full sm:max-w-sm mt-6 text-center text-md text-gray-700'>
 					Or continue with
 				</div>
 				<div className='sm:mx-auto sm:w-full sm:max-w-sm flex justify-around items-center gap-x-4 mt-4 p-2'>
@@ -171,7 +171,7 @@ function Page() {
 						</svg>
 						Google
 					</button>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);

@@ -14,7 +14,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 export default function Page() {
 	const cityRef = useRef<HTMLSelectElement>(null);
-	const countryRef = useRef<HTMLSelectElement>(null);
+	const [selectedCountry, setSelectedCountry] = useState<string>('Colombia');
 	const [selectedShipping, setSelectedShipping] = useState<number | null>(1);
 	const router = useRouter();
 	const { couponCode, SetCartItems, setCouponCode } = useCart();
@@ -33,9 +33,8 @@ export default function Page() {
 	const paymentSubmit = async (formData: PaymentOrderSchema) => {
 		setLoading(true);
 		try {
-			if (cityRef.current && countryRef.current) {
+			if (cityRef.current) {
 				const selectedCity = cityRef.current.value;
-				const selectedCountry = countryRef.current.value;
 
 				const body = {
 					...formData,
@@ -155,14 +154,11 @@ export default function Page() {
 											Country
 										</label>
 									</div>
-									<select
-										id='select-country-input-3'
-										className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 '
-										required
-										ref={countryRef}
-									>
-										<CountriesOptions />
-									</select>
+
+									<CountriesOptions
+										selectedCountry={selectedCountry}
+										setSelectedCountry={setSelectedCountry}
+									/>
 								</div>
 
 								<div>

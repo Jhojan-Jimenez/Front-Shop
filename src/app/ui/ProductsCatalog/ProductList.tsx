@@ -1,10 +1,10 @@
 import { ProductSchema } from '@/app/lib/types';
 import ProductListComponent from './ProductListComponent';
 
-export default async function ProductList({
+export default function ProductList({
 	products,
 }: {
-	products: [ProductSchema];
+	products: [ProductSchema] | [];
 }) {
 	return (
 		<>

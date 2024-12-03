@@ -4,7 +4,7 @@ import Link from 'next/link';
 import StarRating from '../StarRating';
 import ToggleableHeart from '../Hearth';
 
-export default async function ProductListComponent({
+export default function ProductListComponent({
 	product,
 }: {
 	product: ProductSchema;

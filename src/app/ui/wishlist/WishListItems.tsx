@@ -18,7 +18,7 @@ export default function WishListItems({ items }: { items: WishItemSchema[] }) {
 
 function WishItem({ wishItem }: { wishItem: WishItemSchema }) {
 	return (
-		<div className='rounded-lg border border-gray-200 bg-white p-4 shadow-sm  md:p-6'>
+		<div className='rounded-lg border border-gray-200 bg-white p-4 shadow-sm md:p-6'>
 			<div className='space-y-4  xl:flex xl:items-center xl:justify-between xl:space-y-0'>
 				<Link href={`products/${wishItem.product.id}`} className='w-1/2'>
 					<Image
@@ -43,7 +43,7 @@ function WishItem({ wishItem }: { wishItem: WishItemSchema }) {
 					<div className='text-lg font-semibold text-gray-900 mt-2'>
 						<div className='flex justify-between items-center'>
 							${wishItem.product.price}
-							<ToggleableHeart size={32} wishItemId={wishItem.id} />
+							<ToggleableHeart size={32} wishItemId={wishItem.product.id} />
 						</div>
 					</div>
 				</div>

@@ -51,7 +51,7 @@ export default function ProductCatalog({
 	categories,
 }: {
 	children: ReactNode;
-	categories: [CategorySchema];
+	categories: [CategorySchema] | [];
 }) {
 	const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
 
