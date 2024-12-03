@@ -1,9 +1,8 @@
 'use client';
 
-import { Suspense, useMemo } from 'react';
-import { useSearchParams } from 'next/navigation';
-import BeatLoader from 'react-spinners/BeatLoader';
 import ProductsPage from '@/app/ui/ProductsCatalog/ProductsPage';
+import { Suspense } from 'react';
+import BeatLoader from 'react-spinners/BeatLoader';
 
 function Page() {
 	return (
