@@ -50,6 +50,7 @@ export default function Page() {
 	return (
 		<section className='bg-gray-50 py-8 antialiased md:py-12'>
 			<div className='mx-auto max-w-screen-2xl px-4 2xl:px-0'>
+				{/* Suspense envuelto alrededor del componente que depende de la navegación */}
 				<Suspense
 					fallback={
 						<div className='flex justify-center h-full items-center'>
