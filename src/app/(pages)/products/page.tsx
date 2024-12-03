@@ -8,6 +8,7 @@ import Index from '@/app/ui/ProductsCatalog/Filters/Index';
 import ProductCatalog from '@/app/ui/ProductsCatalog/ProductCatalog';
 import ProductList from '@/app/ui/ProductsCatalog/ProductList';
 import BeatLoader from 'react-spinners/BeatLoader';
+export const dynamic = 'force-dynamic';
 
 export default function Page({
 	searchParams,
@@ -23,7 +24,7 @@ export default function Page({
 			setLoading(true);
 			try {
 				const categoriesData = await getCategories();
-				console.log('SearchParams: ', searchParams);
+				console.log('SearchParams:', searchParams);
 
 				const productsData = await getProducts({ ...searchParams });
 				console.log(productsData);
