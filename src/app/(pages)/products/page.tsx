@@ -23,7 +23,10 @@ export default function Page({
 			setLoading(true);
 			try {
 				const categoriesData = await getCategories();
+				console.log('SearchParams: ', searchParams);
+
 				const productsData = await getProducts({ ...searchParams });
+				console.log(productsData);
 
 				setCategories(categoriesData);
 				setProducts(productsData);
