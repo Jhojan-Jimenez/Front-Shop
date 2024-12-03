@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { getCategories } from '@/app/lib/actions/category';
 import { getProducts } from '@/app/lib/actions/product';
 import { CategorySchema, FilterOptions, ProductSchema } from '@/app/lib/types';
@@ -40,21 +40,29 @@ export default function Page({
 	return (
 		<section className='bg-gray-50 py-8 antialiased md:py-12'>
 			<div className='mx-auto max-w-screen-2xl px-4 2xl:px-0'>
-				<ProductCatalog categories={categories}>
-					{loading ? (
+				<Suspense
+					fallback={
 						<div className='flex justify-center h-full items-center'>
-							{' '}
-							<BeatLoader />{' '}
+							<BeatLoader />
 						</div>
-					) : (
-						<div className='mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4'>
-							<ProductList products={products} />
+					}
+				>
+					<ProductCatalog categories={categories}>
+						{loading ? (
+							<div className='flex justify-center h-full items-center'>
+								{' '}
+								<BeatLoader />{' '}
+							</div>
+						) : (
+							<div className='mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4'>
+								<ProductList products={products} />
+							</div>
+						)}
+						<div className='w-full text-center'>
+							<Index totalItems={products.length} />
 						</div>
-					)}
-					<div className='w-full text-center'>
-						<Index totalItems={products.length} />
-					</div>
-				</ProductCatalog>
+					</ProductCatalog>
+				</Suspense>
 			</div>
 		</section>
 	);
