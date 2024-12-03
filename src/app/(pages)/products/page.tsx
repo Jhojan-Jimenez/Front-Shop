@@ -6,13 +6,6 @@ import BeatLoader from 'react-spinners/BeatLoader';
 import ProductsPage from '@/app/ui/ProductsCatalog/ProductsPage';
 
 function Page() {
-	const searchParams = useSearchParams();
-
-	const filters = useMemo(
-		() => Object.fromEntries(searchParams.entries()),
-		[searchParams]
-	);
-
 	return (
 		<Suspense
 			fallback={
@@ -21,7 +14,7 @@ function Page() {
 				</div>
 			}
 		>
-			<ProductsPage filters={filters} />
+			<ProductsPage />
 		</Suspense>
 	);
 }

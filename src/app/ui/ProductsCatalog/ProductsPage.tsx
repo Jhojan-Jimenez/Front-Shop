@@ -1,15 +1,22 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { getCategories } from '@/app/lib/actions/category';
 import { getProducts } from '@/app/lib/actions/product';
+import { CategorySchema, ProductSchema } from '@/app/lib/types';
+import Index from '@/app/ui/ProductsCatalog/Filters/Index';
 import ProductCatalog from '@/app/ui/ProductsCatalog/ProductCatalog';
 import ProductList from '@/app/ui/ProductsCatalog/ProductList';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
 import BeatLoader from 'react-spinners/BeatLoader';
-import Index from '@/app/ui/ProductsCatalog/Filters/Index';
-import { CategorySchema, FilterOptions, ProductSchema } from '@/app/lib/types';
 
-export default function ProductsPage({ filters }: { filters: FilterOptions }) {
+export default function ProductsPage() {
+	const searchParams = useSearchParams();
+
+	const filters = useMemo(
+		() => Object.fromEntries(searchParams.entries()),
+		[searchParams]
+	);
 	const [categories, setCategories] = useState<[CategorySchema] | []>([]);
 	const [products, setProducts] = useState<[ProductSchema] | []>([]);
 	const [loading, setLoading] = useState(true);
