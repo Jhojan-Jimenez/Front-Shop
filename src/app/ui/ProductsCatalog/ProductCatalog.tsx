@@ -46,7 +46,8 @@ const filters = [
 				checked: false,
 			},
 			{
-				value: 'More than 100.000',
+				value: 'More than 1000000',
+
 				label: 'More than 1.000.000',
 				checked: false,
 			},
