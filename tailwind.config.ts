@@ -16,7 +16,9 @@ const config: Config = {
 	},
 	// eslint-disable-next-line @typescript-eslint/no-require-imports
 	plugins: [
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
 		require('@tailwindcss/forms'),
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
 		require('@tailwindcss/aspect-ratio'),
 	],
 };

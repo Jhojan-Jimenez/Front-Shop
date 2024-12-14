@@ -36,12 +36,20 @@ const filters = [
 		name: 'Price Range',
 		param: 'priceRange',
 		options: [
-			{ value: '10000 - 20000', label: '10.000 - 20.000', checked: false },
-			{ value: '20000 - 40000', label: '20.000 - 40.000', checked: false },
-			{ value: '40000 - 60000', label: '40.000 - 60.000', checked: false },
+			{ value: '0 - 100000', label: '0 - 100.000', checked: false },
+			{ value: '100000 - 250000', label: '100.000 - 250.000', checked: false },
+			{ value: '250000 - 450000', label: '250.000 - 450.000', checked: false },
 
-			{ value: '60000 - 80000', label: '60.000 - 80.000', checked: false },
-			{ value: 'More than 80000', label: 'More than 80.000', checked: false },
+			{
+				value: '450000 - 1000000',
+				label: '450.000 - 1.000.000',
+				checked: false,
+			},
+			{
+				value: 'More than 100.000',
+				label: 'More than 1.000.000',
+				checked: false,
+			},
 		],
 	},
 ];

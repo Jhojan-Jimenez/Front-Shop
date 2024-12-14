@@ -101,6 +101,8 @@ export function FilterComponent({
 	filter: Filter;
 	isMobile?: boolean;
 }) {
+	console.log(filter);
+
 	const containerClass = isMobile
 		? 'border-t border-gray-200 px-4 py-6'
 		: 'border-b border-gray-200 py-6';
