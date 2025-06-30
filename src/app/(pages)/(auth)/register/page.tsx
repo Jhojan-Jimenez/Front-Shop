@@ -4,7 +4,6 @@ import { useLoading } from '@/app/context/LoadingContext';
 import { userSignup } from '@/app/lib/actions/sessions';
 import { FormRegData, userRegSchema } from '@/app/lib/validators';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';

@@ -1,7 +1,7 @@
 'use client';
 import AuthContext, { useAuth } from '@/app/context/AuthContext';
 import { UserSchema } from '@/app/lib/types';
-import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
+import { Dialog, Disclosure, Popover } from '@headlessui/react';
 import {
 	Bars3Icon,
 	ChartPieIcon,

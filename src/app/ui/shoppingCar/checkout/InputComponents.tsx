@@ -3,7 +3,8 @@ import React, { useEffect, useState } from 'react';
 
 interface CountriesOptionsProps {
 	selectedCountry: string;
-	setSelectedCountry: (country: string) => void;
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	setSelectedCountry: (_country: string) => void;
 }
 
 export const CountriesOptions: React.FC<CountriesOptionsProps> = ({

@@ -5,7 +5,7 @@
 		"prettier/prettier": ["error"],
 		"semi": ["error", "always"],
 		"quotes": ["error", "single"],
-		"no-unused-vars": ["warn"],
+		"no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
 		"react/react-in-jsx-scope": "off",
 		"react/prop-types": "off",
 		"prefer-arrow-callback": ["warn"],
