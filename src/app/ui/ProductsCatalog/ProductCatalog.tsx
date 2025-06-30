@@ -47,7 +47,6 @@ const filters = [
 			},
 			{
 				value: 'More than 1000000',
-
 				label: 'More than 1.000.000',
 				checked: false,
 			},
